@@ -1,28 +1,32 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app">
+        <router-view :key="$route.fullPath" /> <!-- router/index.js 에서 설정 -->
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+    name: 'App',
+    computed: {
+        ...mapGetters({
+            Config: 'getConfig',
+            Session: 'getSession',
+            sessionStorage: 'getSessionStorage'
+        })
+    },
+    data() {
+        return {
+
+        }
+    },
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<!-- scoped는 현재 파일에서만 실행, 전역으로 사용할때는 제거 -->
+<style lang="scss">
+@import "@/assets/scss/common.scss";
+@import "@/assets/scss/style.scss";
+@import "@/assets/scss/responsive.scss";
 </style>
