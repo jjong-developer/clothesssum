@@ -1,0 +1,117 @@
+{
+    "productInfo": {
+        "bestProductList": [
+            {
+                "name": "상품명",
+                "price": 10000,
+                "file_name": "product4.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 10000,
+                "file_name": "product5.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 10000,
+                "file_name": "product6.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 10000,
+                "file_name": "product7.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 10000,
+                "file_name": "product8.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 10000,
+                "file_name": "product9.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 10000,
+                "file_name": "product10.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 10000,
+                "file_name": "product1.jpg"
+            }
+        ],
+        "productList": [
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product1.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product2.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product3.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product4.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product5.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product6.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product7.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product8.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product9.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product10.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product1.jpg"
+            },
+            {
+                "name": "상품명",
+                "price": 70000,
+                "file_name": "product2.jpg"
+            }
+        ]
+    },
+    "productInfoResult": {
+        "success": true,
+        "resultCode": "200",
+        "resultMessage": "success"
+    }
+}
+
+
+
+
