@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "node-sass": "^6.0.0",
+    "sass-loader": "^10.4.1",
     "vue": "^2.6.14"
   },
   "devDependencies": {
@@ -39,5 +41,7 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "_id": "clothesshop@0.1.0",
+  "readme": "ERROR: No README data found!"
 }
