@@ -104,11 +104,13 @@
 
             .search-main {
                 display: $dp-flex;
+                align-items: center;
 
                 > input {
                     width: 100%;
                     background-color: transparent;
                     border-bottom: 1px solid #fff;
+                    padding: 0px;
                     color: #fff;
 
                     &::placeholder {
