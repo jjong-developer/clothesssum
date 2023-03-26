@@ -1,22 +1,15 @@
 import { getAsxiosNoParam } from './axios.js'; // getAxios, postAxios,
 // import store from '../store/store.js';
 
-console.log("api.js load");
-
 const originHost = window.location.origin;
 let serviceUrl;
 
-console.log(originHost);
-
-if(originHost.indexOf('localhost') !== -1) {
-  console.log("개발용 URL");
-  serviceUrl = 'http://localhost:8080';
-} else if(originHost.indexOf('45.76.197.191') !== -1) {
-  console.log("실서버용 URL");
-  serviceUrl = 'http://45.76.197.191';
+if (originHost.indexOf('localhost') !== -1) {
+  console.log("개발용 배포");
+  serviceUrl = 'http://localhost:8080/';
 } else {
-  console.log("실서버용 URL");
-  serviceUrl = 'https://clothessome.kr';
+  console.log("실서버용 배포");
+  serviceUrl = 'https://clothesssum.web.app/';
 }
 
 export function getProductNoParam(url) {

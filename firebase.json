@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "dist", // vue 사용 시 dist 폴더로 위치, 일반적으로는 public 폴더로 경로 지정
     "ignore": [
       "firebase.json",
       "**/.*",

@@ -23,22 +23,22 @@
                 </dl>
                 <dl>
                     <dt>INFO</dt>
-<!--                    <dd>회사명: ㈜옷과 썸 탈래?</dd>-->
+                    <dd>회사명: ㈜옷과 썸 탈래?</dd>
                     <dd>대표: 김종욱</dd>
                     <dd>주소: 서울특별시</dd>
                     <dd>사업자등록번호: 000-00-00000</dd>
-                    <dd>통신판매업신고: 제 2022-서울-0000호</dd>
-                    <dd>이메일: <a href="mailto:jong-wook@naver.com">jong-wook@naver.com</a></dd>
+                    <dd>통신판매업신고: 제 2023-서울-0000호</dd>
+                    <dd>이메일: <a href="mailto:jongwook2.kim@gmail.com">jongwook2.kim@gmail.com</a></dd>
                 </dl>
                 <dl>
                     <dd>DEVELOPER</dd>
                     <dd>Front-End: KIM JONG WOOK</dd>
-<!--                    <dd>Back-End: KIM JONG WOOK</dd>-->
+                    <dd>Back-End: KIM JONG WOOK</dd>
                     <dd>Design: KIM JONG WOOK</dd>
                 </dl>
                 <div class="footer-portfolio">
                     <div>본 홈페이지는 상업적 목적이 아닌 개인 포트폴리오용으로 제작되었습니다.</div>
-                    <div>©Copyright 2022. clothessome. All right reserved</div>
+                    <div>©Copyright 2023. clothessome. All right reserved</div>
                 </div>
             </div>
         </footer>
