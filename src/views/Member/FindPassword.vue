@@ -3,8 +3,8 @@
         <Header></Header>
 
         <div class="right-wrap">
-            <div class="login-content-wrap">
-                <div class="login-content">
+            <div class="sign-content-wrap">
+                <div class="sign-content">
                     <h2>비밀번호 찾기</h2>
                     <div>
                         <label>이름</label>
