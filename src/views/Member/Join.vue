@@ -3,35 +3,31 @@
         <Header></Header>
 
         <div class="right-wrap">
-            <div class="login-content-wrap not-page-height">
-                <div class="login-content">
+            <div class="sign-content-wrap not-page-height">
+                <div class="sign-content">
                     <h2>회원 가입</h2>
                     <div>
-                        <label>아이디</label>
-                        <input id="idVal" type="text" name="" value="" autocomplete="off" placeholder="" />
+                        <label for="nameVal">이름</label>
+                        <input id="nameVal" type="text" name="" value="" autocomplete="off" placeholder="" />
                     </div>
                     <div>
-                        <label>이름</label>
-                        <input id="idName" type="text" name="" value="" autocomplete="off" placeholder="" />
-                    </div>
-                    <div>
-                        <label>이메일</label>
+                        <label for="emailVal">이메일</label>
                         <input id="emailVal" type="email" name="" value="" autocomplete="off" placeholder="" />
                     </div>
                     <div>
-                        <label>비밀번호</label>
+                        <label for="pwVal">비밀번호</label>
                         <input id="pwVal" type="password" name="" value="" autocomplete="new-password" placeholder="" />
                     </div>
                     <div>
-                        <label>비밀번호 확인</label>
-                        <input id="pwVal" type="password" name="" value="" autocomplete="new-password" placeholder="" />
+                        <label for="re_pwVal">비밀번호 확인</label>
+                        <input id="re_pwVal" type="password" name="" value="" autocomplete="new-password" placeholder="" />
                     </div>
                     <div>
-                        <label>휴대폰 번호</label>
-                        <input id="numberVal" type="tel" name="" value="" maxlength="13" autocomplete="off" placeholder="'-'를 제외하고 입력해주세요." /> <!-- oninput="autoHyphen(this)" -->
+                        <label for="phoneNumVal">휴대폰 번호</label>
+                        <input id="phoneNumVal" type="tel" name="" value="" maxlength="13" autocomplete="off" placeholder="'-'를 제외하고 입력해주세요." />
                     </div>
-                    <div>
-                        <label>우편번호</label>
+                    <div class="address-wrap">
+                        <label>주소</label>
                         <div class="col-70-25">
                             <input id="postCode" type="text" placeholder="" readonly="readonly">
                             <button class="defalut-w-btn" @click="addressSearch()">검색하기</button>
@@ -40,7 +36,7 @@
                         <input id="jibunAddress" type="text" placeholder="지번주소" readonly="readonly">
                         <input id="detailAddress" type="text" placeholder="상세주소">
                     </div>
-                    <div class="join-content-wrap">
+                    <div class="sign-up-content-wrap">
                         <label class="chk-list-label">
                             <input class="chk-list-item" type="checkbox" name="chkAll" value="">
                             <span class="chk-list-mark"></span>
@@ -65,10 +61,10 @@
                         </label>
                     </div>
                     <div>
-                        <button class="wd-100 defalut-btn" type="button" @click="registerSubmit()">가입하기</button>
+                        <button class="wd-100 defalut-btn" type="button" @click="signUp();">가입하기</button>
                     </div>
                     <div>
-                        <h2>SNS 로그인</h2>
+                        <h2>1초 간편 회원가입</h2>
                     </div>
                 </div>
             </div>
@@ -81,58 +77,58 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-// import { validationCheck } from "@/assets/js/common.js";
+import { emailCheck, phoneNumberCheck, regexPhoneNumber } from "@/assets/js/common.js";
 
 export default {
     name: "Join",
     components: {
         Header,
         Footer,
-        // validationCheck,
     },
     data() {
         return {
-            // autoHyphen: '',
+
         }
     },
     mounted() {
-        // validationCheck();
+        let phoneNumCheck = document.querySelector('#phoneNumVal');
 
-        // const autoHyphen = (target) => {
-        //     target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-        // }
+        /**
+         * 실시간 phone number input key 체크
+         */
+        phoneNumCheck.addEventListener('keyup', (e) => {
+            regexPhoneNumber(e.target);
+        });
 
-        /* 공통 체크박스 선택 유,무 */
-        let chkListItemAll = document.querySelector('input[name=chkAll]'); // 전체 체크
-
-        chkListItemAll.addEventListener('click', () => {
-            let getChkListItem = document.querySelectorAll('input[name=chkList]');
-
-            getChkListItem.forEach((checkbox) => {
-                checkbox.checked = chkListItemAll.checked
-            })
-        })
-
+        /**
+         * 이용약관, 개인정보처리방침 선택 유,무
+         */
+        let getChkListItemAll = document.querySelector('input[name=chkAll]'); // 전체 체크
         let getChkListItem = document.querySelectorAll('input[name=chkList]'); // 개별 체크
+
+        getChkListItemAll.addEventListener('click', () => {
+            getChkListItem.forEach((checkbox) => {
+                checkbox.checked = getChkListItemAll.checked
+            })
+        });
 
         for (let i = 0; i < getChkListItem.length; i++) {
             let getChkListItemClick = getChkListItem.item(i);
-            getChkListItemClick.addEventListener('click', () => {
+
+            getChkListItemClick.addEventListener('click', (e) => {
                 let chkListItemSelect = document.querySelectorAll('input[name=chkList]:checked');
 
                 if (getChkListItem.length === chkListItemSelect.length) {
-                    chkListItemAll.checked = true;
+                    getChkListItemAll.checked = true;
                 } else {
-                    chkListItemAll.checked = false;
+                    getChkListItemAll.checked = false;
                 }
-            })
+
+                console.log(e.target.checked);
+            });
         }
     },
     methods: {
-        // validationCheck() {
-        //     console.log("dddd");
-        // },
-
         addressSearch() {
             new window.daum.Postcode({
                 oncomplete: (data) => {
@@ -143,10 +139,12 @@ export default {
                     if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
                         extraRoadAddr += data.bname;
                     }
+
                     // 건물명이 있고, 공동주택일 경우 추가한다.
                     if (data.buildingName !== '' && data.apartment === 'Y') {
                         extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                     }
+
                     // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
                     if (extraRoadAddr !== '') {
                         extraRoadAddr = ' (' + extraRoadAddr + ')';
@@ -158,7 +156,49 @@ export default {
                     document.querySelector('#jibunAddress').value = data.jibunAddress;
                 }
             }).open();
-        }
+        },
+
+        signUp() {
+            let nameVal = document.querySelector('#nameVal').value;
+            let emailVal = document.querySelector('#emailVal').value;
+            let pwVal = document.querySelector('#pwVal').value;
+            let re_pwVal = document.querySelector('#re_pwVal').value;
+            let phoneNumVal = document.querySelector('#phoneNumVal').value;
+            let addressInput = document.querySelectorAll('.address-wrap input');
+            let addressVal = '';
+
+            addressInput.forEach((el) => {
+                addressVal = el.value;
+            })
+
+            let getChkListItem = document.querySelectorAll('input[name=chkList]'); // 개별 체크
+            for (let i = 0; i < getChkListItem.length; i++) {
+                // let getChkListItemClick = getChkListItem.item(i);
+                let chkListItemSelect = document.querySelectorAll('input[name=chkList]:checked');
+            }
+
+            if (!nameVal) {
+                alert("이름을(를) 입력해주세요.");
+                return;
+            } else if (!emailVal) {
+                alert("이메일을(를) 입력해주세요.");
+                return;
+            } else if (!emailCheck(emailVal)) {
+                alert("이메일 형식이 올바르지 않습니다.");
+                return;
+            } else if (!pwVal || !re_pwVal) {
+                alert("비밀번호을(를) 입력해주세요.");
+                return;
+            } else if (pwVal !== re_pwVal) {
+                alert("비밀번호가 일치하지 않습니다.");
+                return;
+            } else if (!phoneNumberCheck(phoneNumVal)) {
+                alert("핸드폰번호를 정확히 입력해주세요.");
+                return;
+            } else if (!addressVal) {
+                alert("주소을(를) 입력해주세요.");
+            }
+        },
     },
     watch: {
 

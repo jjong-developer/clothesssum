@@ -17,6 +17,32 @@ export function goBack() {
   return testset;
 }
 
-export function validationCheck() {
-  console.log("검사 체크");
+/**
+ * 이메일 정규식 체크
+ */
+export function emailCheck(str) {
+  let regEmail = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+
+  if (!regEmail.test(str)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+/**
+ * 핸드폰번호 정규식 & "-" 표시
+ */
+export function phoneNumberCheck(str) {
+  let regPhoneNumber = /[^0-9]/g;
+
+  if (!regPhoneNumber.test(str)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+export function regexPhoneNumber(target) {
+  target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 }

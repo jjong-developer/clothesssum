@@ -3,8 +3,8 @@
         <Header></Header>
 
         <div class="right-wrap">
-            <div class="login-content-wrap">
-                <div class="login-content">
+            <div class="sign-content-wrap">
+                <div class="sign-content">
                     <h2>비회원 주문 조회</h2>
                     <div>
                         <label>이름</label>
