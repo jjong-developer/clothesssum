@@ -5,8 +5,8 @@ export function segment(num) {
   return uriSliceAry[num];
 }
 
-export function siteReload() {
-  const reload = location.reload();
+export function siteReload(url) {
+  const reload = window.location.href = url;
 
   return reload;
 }
