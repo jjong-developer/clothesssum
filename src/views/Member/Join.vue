@@ -78,8 +78,8 @@
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
 import {emailCheck, phoneNumberCheck, regexPhoneNumber, siteReload} from "@/assets/js/common.js";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import { dbAuth } from "@/plugins/firebase.js";
+import {createUserWithEmailAndPassword, updateProfile, sendEmailVerification} from "firebase/auth";
+import {dbAuth} from "@/plugins/firebase.js";
 
 export default {
     name: "Join",
@@ -96,6 +96,7 @@ export default {
         }
     },
     mounted() {
+        // onAuthStateChanged();
         /**
          * 실시간 phone number input key 체크
          */
@@ -130,6 +131,15 @@ export default {
                 }
             });
         }
+
+        // onAuthStateChanged(dbAuth, (user) => {
+        //     if (user) {
+        //         console.log("로그인 상태입니다.");
+        //         console.log(user);
+        //     } else {
+        //         console.log("로그인 상태가 아닙니다.");
+        //     }
+        // });
     },
     methods: {
         addressSearch() {
@@ -176,9 +186,21 @@ export default {
                 addressVal = el.value;
             });
 
-            chkListEssential.forEach((el) => {
-                (el.checked === true) ? isChkListEssential = true : isChkListEssential = false;
-            });
+            // chkListEssential.forEach((el) => {
+            //     el.addEventListener('change', (e) => {
+            //         if (e.target.checked === true) {
+            //             isChkListEssential = true;
+            //             console.log(isChkListEssential);
+            //         } else {
+            //             isChkListEssential = false;
+            //             console.log(isChkListEssential);
+            //         }
+            //     });
+            // });
+
+            for (let i = 0; i < chkListEssential.length; i += 1) {
+                (chkListEssential[i].checked === true) ? isChkListEssential = true : isChkListEssential = false;
+            }
 
             if (!nameVal.value) {
                 alert('이름을(를) 입력해주세요.');
@@ -217,59 +239,32 @@ export default {
             this.userPassword = document.querySelector('input[name=userPassword]').value;
 
             createUserWithEmailAndPassword(dbAuth, this.userEmail, this.userPassword).then((result) => {
-                result.user.updateProfile({
+                updateProfile(result.user, {
                     displayName: this.userName
                 }).then(() => {
-                    // dbAuth.currentUser?.sendEmailVerification();
-                    // dbAuth.signOut(); // createUserWithEmailAndPassword 함수는 자동으로 로그인 되기때문에 메일 인증을 하기위해 로그아웃을 바로 실행
+                    sendEmailVerification(dbAuth.currentUser).then(() => {});
+                    dbAuth.signOut(); // createUserWithEmailAndPassword 함수는 자동으로 로그인 되기때문에 메일 인증을 하기위해 로그아웃을 바로 실행
 
-                    alert("본인확인을 위해서 가입하신 이메일로 전송된 인증 메일의 링크를 클릭하여 인증을 완료해주세요.<br>인증 후 로그인이 가능합니다.");
-                    siteReload();
+                    alert('본인확인을 위해서 가입하신 이메일로 전송된 인증 메일의 링크를 클릭하여 인증을 완료해주세요.\n인증 후 로그인이 가능합니다.');
+                    siteReload('/');
+                }).catch((error) => {
+                    console.log(error.message);
                 });
             }).catch(error => {
-                console.log(error);
                 console.log(error.message);
 
-                if (error.message === 'Password should be at least 6 characters') {
-                    alert('패스워드는 6자 이상이어야 합니다.');
+                if (error.message === 'Firebase: Password should be at least 6 characters (auth/weak-password).') {
+                    alert('비밀번호는 6자 이상이어야 합니다.');
+                    pwVal.focus();
                     return;
                 }
 
-                if (error.message === 'The email address is already in use by another account.') {
+                if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
                     alert('이미 사용 중인 이메일 주소입니다.');
+                    emailVal.focus();
                     return;
                 }
             });
-
-            // data = await createUserWithEmailAndPassword(userEmail, userPassword,
-            // );
-            // console.log(auth);
-            // dbAuth().createUserWithEmailAndPassword(userEmail, userPassword).then(result => {
-            //     result.user.updateProfile({
-            //         displayName: userName
-            //     }).then(() => {
-            //         dbAuth().currentUser?.sendEmailVerification();
-            //         dbAuth().signOut(); // createUserWithEmailAndPassword 함수는 자동으로 로그인 되기때문에 메일 인증을 하기위해 로그아웃을 바로 실행
-            //
-            //         windowPopup('본인확인을 위해서 가입하신 이메일로 전송된 인증 메일의 링크를 클릭하여 인증을 완료해주세요.<br>인증 후 로그인이 가능합니다.');
-            //         document.querySelector('#windowPopupOk').addEventListener('click', () => {
-            //             reload();
-            //         });
-            //     });
-            // }).catch(error => {
-            //     console.log(error.message);
-            //
-            //     if (error.message === 'Password should be at least 6 characters') {
-            //         windowPopup('패스워드는 6자 이상이어야 합니다.');
-            //         return;
-            //     }
-            //     if (error.message === 'The email address is already in use by another account.') {
-            //         windowPopup('이미 사용 중인 이메일 주소입니다.');
-            //         return;
-            //     }
-            //
-            //     windowPopup('회원가입에 실패하였습니다, 잠시 후 다시 시도해주세요.');
-            // });
         },
     },
 
