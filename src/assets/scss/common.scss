@@ -120,6 +120,7 @@ button {
 	font-size: 14px;
 	cursor: pointer;
 	background: none;
+	padding: 0px;
 
 	&:focus {
 		outline: 0;
@@ -264,7 +265,7 @@ table {
 	}
 }
 
-#kakaoPlusBtnWrap {
+.qa-btn {
 	position: fixed;
 	right: 0;
 	bottom: 100px;
@@ -282,11 +283,6 @@ table {
 	z-index: 9999;
 	background: rgba(0, 0, 0, 1);
 	border-radius: 50%;
-	cursor: pointer;
-
-	& img {
-		display: block;
-	}
 }
 
 .page-bottom-btn {
@@ -296,11 +292,6 @@ table {
 	z-index: 9999;
 	background: rgba(0, 0, 0, 1);
 	border-radius: 50%;
-	cursor: pointer;
-
-	& img {
-		display: block;
-	}
 }
 
 /*********************************************************
