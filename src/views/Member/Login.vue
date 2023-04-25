@@ -7,23 +7,34 @@
                 <div class="sign-content">
                     <h2>로그인</h2>
                     <div>
-                        <label>아이디</label>
-                        <input id="idVal" type="text" name="" value="" autocomplete="off" placeholder="" />
+                        <label>이메일</label>
+                        <input id="userEmail" type="text" name="userEmail" value="" autocomplete="off" placeholder="" />
                     </div>
                     <div>
                         <label>비밀번호</label>
-                        <input id="pwVal" type="password" name="" value="" autocomplete="new-password" placeholder="" />
+                        <input id="userPassWord" type="password" name="userPassWord" value="" autocomplete="new-password" placeholder="" />
                     </div>
                     <div class="login-help">
-                        <router-link to="/Member/FindPassword">비밀번호 찾기</router-link>
+                        <router-link to="/Member/PasswordReset">비밀번호 재설정</router-link>
                         <router-link to="/Order/GuestOrder">비회원 주문 조회</router-link>
-                        <router-link to="/Member/Join">회원 가입하기</router-link>
+                        <router-link to="/Member/Join">회원 가입</router-link>
                     </div>
                     <div>
-                        <button class="wd-100 defalut-btn" type="button" @click="loginSubmit()">로그인</button>
+                        <button class="wd-100 defalut-btn" type="button" @click="loginSubmit();">로그인</button>
                     </div>
                     <div>
-                        <h2>SNS 로그인</h2>
+                        <h2>1초 간편 로그인</h2>
+                        <div class="sns-login-wrap">
+                            <button type="button" @click="googleLogin();">
+                                <img :src="require('@/assets/img/sns/google_icon.png')" title="구글 이메일로 로그인" alt="구글 이메일로 로그인" />
+                            </button>
+                            <button type="button" @click="facebookLogin();">
+                                <img :src="require('@/assets/img/sns/facebook_icon.png')" title="페이스북 이메일로 로그인" alt="페이스북 이메일로 로그인" />
+                            </button>
+<!--                            <button type="button">-->
+<!--                                <img :src="require('@/assets/img/sns/kakao_icon.png')" title="카카오 이메일로 로그인" alt="카카오 이메일로 로그인" />-->
+<!--                            </button>-->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,41 +47,94 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-// import {segment} from "@/assets/js/common.js";
+import {emailCheck, siteReload} from "@/assets/js/common.js";
+import {signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signInWithPopup, signInWithRedirect} from "firebase/auth";
+import {dbAuth, googleProvider, facebookProvider} from "@/plugins/firebase.js";
 
 export default {
     name: "Login",
+
     components: {
         Header,
         Footer,
     },
+
+    props: {
+
+    },
+
     data() {
         return {
 
         }
     },
-    mounted() {
+
+    created () {
 
     },
+
+    mounted() {
+        onAuthStateChanged(dbAuth, (user) => { // 로그인 상태 여/부
+           console.log(user);
+        });
+    },
+
     methods: {
         loginSubmit() {
-            let test = document.querySelector('#idVal');
-            let test2 = document.querySelector('#pwVal');
+            let userEmail = document.querySelector('#userEmail');
+            let userPassWord = document.querySelector('#userPassWord');
 
-            if (test.value == '') {
-                alert("아이디를 정확히 입력해주세요 :)");
-                test.focus();
-                return false;
-            } else if (test2.value == '') {
-                alert("비밀번호를 정확히 입력해주세요 :)");
-                test2.focus();
-                return false;
-            } else {
-                alert("아이디랑 비밀번호가 일치하지 않습니다 :)");
-                return false;
+            if (!userEmail.value) {
+                alert('이메일을(를) 입력해주세요.');
+                userEmail.focus();
+                return;
+            } else if (!emailCheck(userEmail.value)) {
+                alert('이메일 형식이 올바르지 않습니다.');
+                userEmail.focus();
+                return;
+            } else if (!userPassWord.value) {
+                alert('비밀번호을(를) 입력해주세요.');
+                userPassWord.focus();
+                return;
             }
+
+            signInWithEmailAndPassword(dbAuth, userEmail.value, userPassWord.value).then(result => {
+                console.log(result.user.emailVerified);
+
+                if (result.user.emailVerified) { // 이메일 인증한 유저만 로그인 가능 (boolean 값)
+                    siteReload('/');
+                } else {
+                    if (confirm('이메일 인증이 확인되지 않았습니다.\n인증 메일의 링크를 다시 전송하시겠습니까?') === true) {
+                        sendEmailVerification(dbAuth.currentUser).then(() => {});
+                        dbAuth.signOut();
+
+                        alert(result.user.email + '이메일로 전송된 인증 메일의 링크를 클릭하여 인증을 완료해주세요\n인증 후 로그인이 가능합니다.');
+                        siteReload('/');
+                    }
+                }
+            }).catch(error => {
+                console.log(error);
+                alert('회원 정보가 일치하지 않습니다.\n회원이 아니시라면 회원 가입 후 이용해주세요.');
+            });
+        },
+
+        googleLogin() {
+            signInWithPopup(dbAuth, googleProvider).then(() => {
+                siteReload('/');
+            }).catch((error) => {
+                alert(error);
+            });
+        },
+
+        facebookLogin() {
+            signInWithPopup(dbAuth, facebookProvider).then(() => {
+                siteReload('/');
+            }).catch((error) => {
+                alert(error);
+            });
         }
     },
+
     watch: {
 
     },

@@ -43,15 +43,15 @@
             </div>
         </footer>
 
-        <button id="kakaoPlusBtnWrap" type="button" @click="kakaoPlusBtnWrap()" v-if="isMoveBtn">
+        <button class="ddadawdawdvvv qa-btn" type="button" @click="qaBtn();">
             <img :src="require('@/assets/img/common/kakao_chaner.png')" alt="플러스친구 1:1 채팅 버튼" />
         </button>
-        <div class="page-top-btn" @click="pageTop" v-if="isMoveBtn">
+        <button class="ddadawdawdvvv page-top-btn" :class="{'opacity0': this.isMoveBtn === true}" type="button" @click="pageTop();">
             <img :src="require('@/assets/img/common/top_btn.png')" alt="맨끝 이동" />
-        </div>
-        <div class="page-bottom-btn" @click="pageBottom" v-if="isMoveBtn">
+        </button>
+        <button class="ddadawdawdvvv page-bottom-btn" type="button" @click="pageBottom();">
             <img :src="require('@/assets/img/common/bottom_btn.png')" alt="맨아래 이동" />
-        </div>
+        </button>
 <!--        <div ref="pageTopBtn"></div>-->
     </div>
 </template>
@@ -62,22 +62,34 @@ export default {
 	components: {
 
     },
+
     data() {
         return {
-            isMoveBtn: false,
+            isMoveBtn: false
         }
     },
+
     mounted() {
+	    let alqpqpa = document.querySelectorAll('.ddadawdawdvvv');
+
         window.addEventListener('scroll', () => {
-            document.querySelector('html').scrollTop > 0 ? this.isMoveBtn = true : this.isMoveBtn = false
+            document.body.scrollTop > 0 ? this.isMoveBtn = true : this.isMoveBtn = false;
+            // if (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
+            //     alqpqpa.classList.remove('opacity0');
+            //     console.log("aaa");
+            // } else {
+            //     alqpqpa.classList.add('opacity0');
+            //     console.log("bbb");
+            // }
         });
     },
+
 	methods: {
         /* 특정 영역으로 이동할때 refs 사용 */
         // this.$refs['pageTopBtn'].scrollIntoView({behavior: "smooth"})
 
         pageTop() {
-            if(window.pageYOffset > 0) {
+            if (window.pageYOffset > 0) {
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
@@ -92,7 +104,7 @@ export default {
             });
         },
 
-        kakaoPlusBtnWrap() {
+        qaBtn() {
             alert("서비스 준비중입니다.");
             return false;
         }

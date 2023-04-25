@@ -25,9 +25,9 @@ const routes = [
 		component: () => import(/* webpackChunkName: "MyInfo" 내 정보 페이지 */ '@/views/Member/MyInfo'),
 	},
 	{
-		path: '/Member/FindPassword',
-		name: 'FindPassword',
-		component: () => import(/* webpackChunkName: "FindPassword" 비밀번호 찾기 */ '@/views/Member/FindPassword'),
+		path: '/Member/PasswordReset',
+		name: 'PasswordReset',
+		component: () => import(/* webpackChunkName: "PasswordReset" 비밀번호 찾기 */ '@/views/Member/PasswordReset'),
 	},
 	{
 		path: '/Order/GuestOrder',

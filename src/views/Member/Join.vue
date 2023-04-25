@@ -7,20 +7,20 @@
                 <div class="sign-content">
                     <h2>회원 가입</h2>
                     <div>
-                        <label for="nameVal">이름</label>
-                        <input id="nameVal" type="text" name="userName" value="" autocomplete="off" placeholder="" />
+                        <label for="userName">이름</label>
+                        <input id="userName" type="text" name="userName" value="" autocomplete="off" placeholder="" />
                     </div>
                     <div>
-                        <label for="emailVal">이메일</label>
-                        <input id="emailVal" type="email" name="userEmail" value="" autocomplete="off" placeholder="" />
+                        <label for="userEmail">이메일</label>
+                        <input id="userEmail" type="email" name="userEmail" value="" autocomplete="off" placeholder="" />
                     </div>
                     <div>
-                        <label for="pwVal">비밀번호</label>
-                        <input id="pwVal" type="password" name="userPassword" value="" autocomplete="new-password" placeholder="" />
+                        <label for="userPassword">비밀번호</label>
+                        <input id="userPassword" type="password" name="userPassword" value="" autocomplete="new-password" placeholder="" />
                     </div>
                     <div>
-                        <label for="re_pwVal">비밀번호 확인</label>
-                        <input id="re_pwVal" type="password" name="user_re_password" value="" autocomplete="new-password" placeholder="" />
+                        <label for="user_re_password">비밀번호 확인</label>
+                        <input id="user_re_password" type="password" name="user_re_password" value="" autocomplete="new-password" placeholder="" />
                     </div>
                     <div>
                         <label for="phoneNumVal">휴대폰 번호</label>
@@ -172,10 +172,10 @@ export default {
         },
 
         signUp() {
-            let nameVal = document.querySelector('#nameVal');
-            let emailVal = document.querySelector('#emailVal');
-            let pwVal = document.querySelector('#pwVal');
-            let re_pwVal = document.querySelector('#re_pwVal');
+            let userName = document.querySelector('#userName');
+            let userEmail = document.querySelector('#userEmail');
+            let userPassword = document.querySelector('#userPassword');
+            let user_re_password = document.querySelector('#user_re_password');
             let phoneNumVal = document.querySelector('#phoneNumVal');
             let addressInput = document.querySelectorAll('.address-wrap input');
             let addressVal = '';
@@ -202,25 +202,25 @@ export default {
                 (chkListEssential[i].checked === true) ? isChkListEssential = true : isChkListEssential = false;
             }
 
-            if (!nameVal.value) {
+            if (!userName.value) {
                 alert('이름을(를) 입력해주세요.');
-                nameVal.focus();
+                userName.focus();
                 return;
-            } else if (!emailVal.value) {
+            } else if (!userEmail.value) {
                 alert('이메일을(를) 입력해주세요.');
-                emailVal.focus();
+                userEmail.focus();
                 return;
-            } else if (!emailCheck(emailVal.value)) {
+            } else if (!emailCheck(userEmail.value)) {
                 alert('이메일 형식이 올바르지 않습니다.');
-                emailVal.focus();
+                userEmail.focus();
                 return;
-            } else if (!pwVal.value || !re_pwVal.value) {
+            } else if (!userPassword.value || !user_re_password.value) {
                 alert('비밀번호을(를) 입력해주세요.');
-                pwVal.focus();
+                userPassword.focus();
                 return;
-            } else if (pwVal.value !== re_pwVal.value) {
+            } else if (userPassword.value !== user_re_password.value) {
                 alert('비밀번호가 일치하지 않습니다.');
-                pwVal.focus();
+                userPassword.focus();
                 return;
             } else if (!phoneNumberCheck(phoneNumVal.value)) {
                 alert('핸드폰번호를 정확히 입력해주세요.');
@@ -255,13 +255,13 @@ export default {
 
                 if (error.message === 'Firebase: Password should be at least 6 characters (auth/weak-password).') {
                     alert('비밀번호는 6자 이상이어야 합니다.');
-                    pwVal.focus();
+                    userPassword.focus();
                     return;
                 }
 
                 if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
                     alert('이미 사용 중인 이메일 주소입니다.');
-                    emailVal.focus();
+                    userEmail.focus();
                     return;
                 }
             });
