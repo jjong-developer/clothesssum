@@ -22,20 +22,7 @@
                     <div>
                         <button class="wd-100 defalut-btn" type="button" @click="loginSubmit();">로그인</button>
                     </div>
-                    <div>
-                        <h2>1초 간편 로그인</h2>
-                        <div class="sns-login-wrap">
-                            <button type="button" @click="googleLogin();">
-                                <img :src="require('@/assets/img/sns/google_icon.png')" title="구글 이메일로 로그인" alt="구글 이메일로 로그인" />
-                            </button>
-                            <button type="button" @click="facebookLogin();">
-                                <img :src="require('@/assets/img/sns/facebook_icon.png')" title="페이스북 이메일로 로그인" alt="페이스북 이메일로 로그인" />
-                            </button>
-<!--                            <button type="button">-->
-<!--                                <img :src="require('@/assets/img/sns/kakao_icon.png')" title="카카오 이메일로 로그인" alt="카카오 이메일로 로그인" />-->
-<!--                            </button>-->
-                        </div>
-                    </div>
+                    <SnsLogin></SnsLogin>
                 </div>
             </div>
         </div>
@@ -47,9 +34,10 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import {emailCheck, siteReload} from "@/assets/js/common.js";
-import {signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signInWithPopup, signInWithRedirect} from "firebase/auth";
-import {dbAuth, googleProvider, facebookProvider} from "@/plugins/firebase.js";
+import SnsLogin from "@/components/SingInUp/SnsLogin";
+import { emailCheck, siteReload } from "@/assets/js/common.js";
+import { signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
+import { dbAuth } from "@/plugins/firebase.js";
 
 export default {
     name: "Login",
@@ -57,6 +45,7 @@ export default {
     components: {
         Header,
         Footer,
+        SnsLogin,
     },
 
     props: {
@@ -117,22 +106,6 @@ export default {
                 alert('회원 정보가 일치하지 않습니다.\n회원이 아니시라면 회원 가입 후 이용해주세요.');
             });
         },
-
-        googleLogin() {
-            signInWithPopup(dbAuth, googleProvider).then(() => {
-                siteReload('/');
-            }).catch((error) => {
-                alert(error);
-            });
-        },
-
-        facebookLogin() {
-            signInWithPopup(dbAuth, facebookProvider).then(() => {
-                siteReload('/');
-            }).catch((error) => {
-                alert(error);
-            });
-        }
     },
 
     watch: {

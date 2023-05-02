@@ -42,45 +42,49 @@
                 </div>
             </div>
         </footer>
-
-        <button class="ddadawdawdvvv qa-btn" type="button" @click="qaBtn();">
-            <img :src="require('@/assets/img/common/kakao_chaner.png')" alt="플러스친구 1:1 채팅 버튼" />
+        <button class="page-top-btn" type="button" @click="pageTop();">
+            <img :src="require('@/assets/img/common/top.png')" alt="맨 위로 이동" />
         </button>
-        <button class="ddadawdawdvvv page-top-btn" :class="{'opacity0': this.isMoveBtn === true}" type="button" @click="pageTop();">
-            <img :src="require('@/assets/img/common/top_btn.png')" alt="맨끝 이동" />
-        </button>
-        <button class="ddadawdawdvvv page-bottom-btn" type="button" @click="pageBottom();">
-            <img :src="require('@/assets/img/common/bottom_btn.png')" alt="맨아래 이동" />
+        <button class="page-bottom-btn" type="button" @click="pageBottom();">
+            <img :src="require('@/assets/img/common/bottom.png')" alt="맨 아래 이동" />
         </button>
 <!--        <div ref="pageTopBtn"></div>-->
     </div>
 </template>
 
 <script>
+import { channelTalk } from "@/assets/js/common.js";
+
 export default {
 	name: "Footer",
+
 	components: {
 
     },
 
     data() {
         return {
-            isMoveBtn: false
+
         }
     },
 
     mounted() {
-	    let alqpqpa = document.querySelectorAll('.ddadawdawdvvv');
+        channelTalk();
 
-        window.addEventListener('scroll', () => {
-            document.body.scrollTop > 0 ? this.isMoveBtn = true : this.isMoveBtn = false;
-            // if (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
-            //     alqpqpa.classList.remove('opacity0');
-            //     console.log("aaa");
-            // } else {
-            //     alqpqpa.classList.add('opacity0');
-            //     console.log("bbb");
-            // }
+        document.addEventListener('scroll', () => {
+            if (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
+                document.querySelector('.page-top-btn').classList.remove('opacity0');
+                document.querySelector('.page-bottom-btn').classList.remove('opacity0');
+            } else {
+                document.querySelector('.page-top-btn').classList.add('opacity0');
+                document.querySelector('.page-bottom-btn').classList.add('opacity0');
+            }
+
+            // pageYOffset는 IE 및 모든 브라우저에서 지원하지만 scrollY는 IE에서는 지원을 안함
+            if ((window.innerHeight + Math.ceil(window.pageYOffset)) >= document.body.offsetHeight) {
+                document.querySelector('.page-top-btn').classList.add('opacity0');
+                document.querySelector('.page-bottom-btn').classList.add('opacity0');
+            }
         });
     },
 
@@ -103,11 +107,6 @@ export default {
                 behavior: 'smooth'
             });
         },
-
-        qaBtn() {
-            alert("서비스 준비중입니다.");
-            return false;
-        }
 	}
 };
 </script>

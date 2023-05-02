@@ -46,7 +46,7 @@ $fs-defalut: 14px;
 $fs-middle: 16px;
 $fs-xss-small: 12px;
 
-@mixin defalut-css {
+@mixin defalut {
 	font-family: 'Poppins', sans-serif;
 	width: 100%;
 	height: auto;
@@ -81,16 +81,19 @@ $fs-xss-small: 12px;
 
 @mixin right-wrap {
 	position: relative;
-	//width: 85%;
 	width: 1450px;
-	//height: 100vh;
 	height: auto;
 	float: right;
 	padding: 60px 40px 60px 40px;
 }
 
+@mixin dp-flex-defalut {
+	display: flex;
+	align-items: center;
+}
+
 html, body {
-	@include defalut-css;
+	@include defalut;
 
 	&::-webkit-scrollbar {
 		@include scroll-bar-wrap;
@@ -127,6 +130,10 @@ button {
 	}
 }
 input {
+	height: 40px;
+	margin-right: 5px;
+	padding: 0 15px 0 15px;
+	border: 1px solid #000 !important;
 	outline: none;
 	border: none;
 	font-size: 14px;
@@ -145,17 +152,11 @@ input {
 		font-size: 14px;
 	}
 }
-input[type=text] {
-	height: 45px;
-	border: 1px solid #000;
-	margin-right: 5px;
-	padding: 0 15px 0 15px;
-}
 input[type=file] {
 	height: 35px;
 	padding: 5px;
-	cursor: unset;
 	margin: 0 0 5px 0 !important;
+	cursor: unset;
 }
 label {
 	display: block;
@@ -193,6 +194,9 @@ textarea {
 }
 table {
 	border-collapse: collapse;
+}
+.opacity0 {
+	opacity: 0% !important;
 }
 
 /****************************************
@@ -236,12 +240,12 @@ table {
 
 .defalut-btn {
 	width: 100px;
-	height: 45px;
+	height: 40px;
 	background: #000;
 	color: #fff;
-	border: 1px solid #000;
 	margin: 10px 0 40px 0;
 	padding: 0 15px 0 15px;
+	border: 1px solid #000;
 
 	&:hover {
 		background: #fff;
@@ -278,20 +282,20 @@ table {
 
 .page-top-btn {
 	position: fixed;
-	bottom: 70px;
+	bottom: 125px;
 	right: 20px;
 	z-index: 9999;
-	background: rgba(0, 0, 0, 1);
-	border-radius: 50%;
+	opacity: 100%;
+	transition: opacity 0.3s;
 }
 
 .page-bottom-btn {
 	position: fixed;
-	bottom: 30px;
+	bottom: 95px;
 	right: 20px;
 	z-index: 9999;
-	background: rgba(0, 0, 0, 1);
-	border-radius: 50%;
+	opacity: 100%;
+	transition: opacity 0.3s;
 }
 
 /*********************************************************
