@@ -1,7 +1,5 @@
 <template>
     <div>
-        <Header></Header>
-
         <div class="right-wrap">
             <div class="sign-content-wrap">
                 <div class="sign-content">
@@ -16,17 +14,15 @@
                 </div>
             </div>
         </div>
-
-        <Footer></Footer>
     </div>
 </template>
 
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import {emailCheck} from "@/assets/js/common.js";
-import {sendPasswordResetEmail} from "firebase/auth";
-import {dbAuth} from "@/plugins/firebase.js";
+import { emailCheck } from "@/assets/js/common.js";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { dbAuth } from "@/plugins/firebase.js";
 
 export default {
     name: "PasswordReset",

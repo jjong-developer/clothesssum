@@ -9,7 +9,12 @@
                     <input id="nameValue" type="text" value="" placeholder="작성자를 입력해주세요." />
                     <label>제목</label>
                     <input id="titleValue" type="text" value="" placeholder="제목을 입력해주세요." />
-                    <label>내용</label>
+                    <div class="write-tool">
+                        <label>내용</label>
+                        <button type="button">
+                            <img :src="require('@/assets/img/common/picture.png')" title="이미지 첨부" alt="이미지 첨부" />
+                        </button>
+                    </div>
                     <textarea id="contentValue" value="" placeholder="내용을 입력해주세요."></textarea>
                     <label>첨부파일</label>
                     <input class="fileUpload" type="file" multiple />
@@ -28,14 +33,16 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import { goBack } from "@/assets/js/common.js";
+import {goBack} from "@/assets/js/common.js";
 
 export default {
     name: "Write",
+
     components: {
         Header,
         Footer,
     },
+
     data() {
         return {
             getNameValue: '',
@@ -54,22 +61,11 @@ export default {
             file_name: '',
         }
     },
+
     mounted() {
-        // console.log(this.$firebase.firestore());
 
-        // let fileInputs = document.getElementById('fileUpload');
-        // let handleFiles = () => {
-        //     let selectedFile = [...fileInputs.files];
-        //     console.log(selectedFile);
-        // };
-        // fileInputs.addEventListener('change', handleFiles);
-
-        // let fileInputs = document.getElementById('fileUpload');
-        // fileInputs.onchange = () => {
-        //     let selectedFile = [...fileInputs.files];
-        //     console.log(selectedFile);
-        // };
     },
+
     methods: {
         compleat() {
             this.getTitleValue = document.querySelector('#titleValue').value;
@@ -91,12 +87,12 @@ export default {
             };
             this.$firebase.firestore().collection('notice').add(this.save).then((result) => {
                 console.log(result);
-                alert("게시글이 등록되었습니다.");
+                alert('게시글이 등록되었습니다.');
                 console.log(this.getSaveFile);
                 // window.location.href = '/Board/Notice/List';
             }).catch((error) => {
                 console.log(error);
-                alert("게시글 작성에 실패하였습니다.");
+                alert('게시글 작성에 실패하였습니다.');
             })
         },
 

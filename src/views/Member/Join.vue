@@ -23,8 +23,8 @@
                         <input id="user_re_password" type="password" name="user_re_password" value="" autocomplete="new-password" placeholder="" />
                     </div>
                     <div>
-                        <label for="phoneNumVal">휴대폰 번호</label>
-                        <input id="phoneNumVal" type="tel" name="userPhoneNumber" value="" maxlength="13" autocomplete="off" placeholder="'-'를 제외하고 입력해주세요." />
+                        <label for="userPhoneNumber">휴대폰 번호</label>
+                        <input id="userPhoneNumber" type="tel" name="userPhoneNumber" value="" maxlength="13" autocomplete="off" placeholder="'-'를 제외하고 입력해주세요." />
                     </div>
                     <div class="address-wrap">
                         <label>주소</label>
@@ -63,9 +63,6 @@
                     <div>
                         <button class="wd-100 defalut-btn" type="button" @click="signUp();">가입하기</button>
                     </div>
-                    <div>
-                        <h2>1초 간편 회원가입</h2>
-                    </div>
                 </div>
             </div>
         </div>
@@ -77,9 +74,9 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import {emailCheck, phoneNumberCheck, regexPhoneNumber, siteReload} from "@/assets/js/common.js";
-import {createUserWithEmailAndPassword, updateProfile, sendEmailVerification} from "firebase/auth";
-import {dbAuth} from "@/plugins/firebase.js";
+import { emailCheck, phoneNumberCheck, regexPhoneNumber, siteReload } from "@/assets/js/common.js";
+import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
+import { dbAuth } from "@/plugins/firebase.js";
 
 export default {
     name: "Join",
@@ -100,7 +97,7 @@ export default {
         /**
          * 실시간 phone number input key 체크
          */
-        let phoneNumCheck = document.querySelector('#phoneNumVal');
+        let phoneNumCheck = document.querySelector('#userPhoneNumber');
 
         phoneNumCheck.addEventListener('keyup', (e) => {
             regexPhoneNumber(e.target);
@@ -176,7 +173,7 @@ export default {
             let userEmail = document.querySelector('#userEmail');
             let userPassword = document.querySelector('#userPassword');
             let user_re_password = document.querySelector('#user_re_password');
-            let phoneNumVal = document.querySelector('#phoneNumVal');
+            let userPhoneNumber = document.querySelector('#userPhoneNumber');
             let addressInput = document.querySelectorAll('.address-wrap input');
             let addressVal = '';
             let isChkListEssential;
@@ -222,9 +219,9 @@ export default {
                 alert('비밀번호가 일치하지 않습니다.');
                 userPassword.focus();
                 return;
-            } else if (!phoneNumberCheck(phoneNumVal.value)) {
+            } else if (!phoneNumberCheck(userPhoneNumber.value)) {
                 alert('핸드폰번호를 정확히 입력해주세요.');
-                phoneNumVal.focus();
+                userPhoneNumber.focus();
                 return;
             } else if (!addressVal) {
                 alert('주소을(를) 입력해주세요.');

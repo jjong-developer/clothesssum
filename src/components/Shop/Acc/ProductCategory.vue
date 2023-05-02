@@ -16,25 +16,28 @@
 </template>
 
 <script>
-import { siteReload } from "@/assets/js/common.js";
-
 export default {
     name: "ProductCategory",
+
     components: {
 
     },
+
     props: {
 
     },
+
     data() {
         return {
             category: '',
         }
     },
+
     mounted() {
         let uri = window.location.search;
         let uriAry = uri.split('?');
         let andAry = uriAry[1].split('&');
+
         for (let k in andAry) {
             if (andAry[k].indexOf('productListFilter=') != -1) {
                 this.category = andAry[k].split('=')[1];
@@ -42,6 +45,7 @@ export default {
         }
         console.log(this.category);
     },
+
     methods: {
         categoryLink(type) {
             switch (type) {
@@ -53,7 +57,7 @@ export default {
                         query: { productListFilter: this.category },
                         props: true,
                     }).catch(()=>{})
-                    siteReload();
+                    this.$router.go();
                     break;
                 case 'shoes':
                     this.category = 'shoes';
@@ -63,7 +67,7 @@ export default {
                         query: { productListFilter: this.category },
                         props: true,
                     }).catch(()=>{})
-                    siteReload();
+                    this.$router.go();
                     break;
                 case 'belt':
                     this.category = 'belt';
@@ -73,7 +77,7 @@ export default {
                         query: { productListFilter: this.category },
                         props: true,
                     }).catch(()=>{})
-                    siteReload();
+                    this.$router.go();
                     break;
                 case 'bag':
                     this.category = 'bag';
@@ -83,7 +87,7 @@ export default {
                         query: { productListFilter: this.category },
                         props: true,
                     }).catch(()=>{})
-                    siteReload();
+                    this.$router.go();
                     break;
                 case 'socks':
                     this.category = 'socks';
@@ -93,7 +97,7 @@ export default {
                         query: { productListFilter: this.category },
                         props: true,
                     }).catch(()=>{})
-                    siteReload();
+                    this.$router.go();
                     break;
                 case 'watch':
                     this.category = 'watch';
@@ -103,13 +107,10 @@ export default {
                         query: { productListFilter: this.category },
                         props: true,
                     }).catch(()=>{})
-                    siteReload();
+                    this.$router.go();
                     break;
             }
         }
-    },
-    watch: {
-
     },
 };
 </script>

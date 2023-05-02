@@ -74,6 +74,16 @@ const routes = [
 		name: 'Policy',
 		component: () => import(/* webpackChunkName: "Policy" 1:이용약관, 2:개인정보처리방침 */ "@/views/Board/Policy"),
 	},
+	{
+		path: '/Admin/Login',
+		name: 'Login',
+		component: () => import(/* webpackChunkName: "Admin/Login" 관리자 로그인 페이지 */ "@/views/Admin/Login"),
+	},
+	{
+		path: '/Admin/Adminmaster',
+		name: 'Adminmaster',
+		component: () => import(/* webpackChunkName: "Admin/Adminmaster" 관리자 전용 */ "@/views/Admin/Adminmaster"),
+	},
 ]
 
 const router = new VueRouter({

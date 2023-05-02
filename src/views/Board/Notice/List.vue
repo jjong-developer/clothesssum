@@ -14,12 +14,12 @@
                         </tr>
                     </thead>
                     <tbody id="noticeList">
-<!--                        <tr>-->
-<!--                            <td>{{ noticeListResult.num }}</td>-->
-<!--                            <td>{{ noticeListResult.title }}</td>-->
-<!--                            <td>{{ noticeListResult.write }}</td>-->
-<!--                            <td>{{ noticeListResult.date }}</td>-->
-<!--                        </tr>-->
+                        <tr>
+                            <td>{{ noticeListResult.num }}</td>
+                            <td>{{ noticeListResult.title }}</td>
+                            <td>{{ noticeListResult.write }}</td>
+                            <td>{{ noticeListResult.date }}</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -43,23 +43,21 @@ import Footer from "@/components/Common/Footer";
 
 export default {
     name: "List",
+
     components: {
         Header,
         Footer,
     },
+
     data() {
         return {
             noticeListResult: '',
         }
     },
+
     mounted() {
-        // console.log(this.$firebase.firestore());
-
         this.$firebase.firestore().collection('notice').get().then((snapshot) => {
-            console.log(snapshot.docs.length);
-            console.log(snapshot.docs)
-
-            if(snapshot.docs.length === 0) {
+            if (snapshot.docs.length === 0) {
                 let noticeListNoDatatempleat = '' +
                     '<tr>' +
                         '<td colspan="4">게시글이 없습니다.</td>' +
@@ -96,6 +94,7 @@ export default {
             })
         });
     },
+
     methods: {
         write() {
             this.$router.push({
@@ -103,9 +102,6 @@ export default {
             })
         }
     },
-    watch: {
-
-    }
 };
 </script>
 

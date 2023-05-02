@@ -84,9 +84,9 @@
 </template>
 
 <script>
-import {dbAuth} from "@/plugins/firebase.js";
-import {onAuthStateChanged} from "firebase/auth";
-import {siteReload} from "@/assets/js/common";
+import { dbAuth } from "@/plugins/firebase.js";
+import { onAuthStateChanged } from "firebase/auth";
+import { siteReload } from "@/assets/js/common.js";
 
 export default {
 	name: "Header",
@@ -114,7 +114,7 @@ export default {
             dbAuth.signOut();
             siteReload('/');
         }
-	}
+	},
 };
 </script>
 

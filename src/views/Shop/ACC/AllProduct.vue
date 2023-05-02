@@ -41,20 +41,23 @@ import { mapGetters } from "vuex";
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
 import ProductCategory from '@/components/Shop/Acc/ProductCategory';
-import { getProductNoParam } from "@/assets/js/api";
+import { getProductNoParam } from "@/assets/js/api.js";
 import InfiniteLoading from "vue-infinite-loading";
 
 export default {
     name: "AllProduct",
+
     components: {
         Header,
         Footer,
         ProductCategory,
         InfiniteLoading
     },
+
     created() {
         console.log(this.$route.query.productListFilter);
     },
+
     data() {
         return {
             category: this.category,
@@ -62,21 +65,23 @@ export default {
             productsMore: '',
         }
     },
+
     computed: {
         ...mapGetters({
             Config: 'getConfig'
         })
     },
+
     mounted() {
         let uri = window.location.search;
         let uriAry = uri.split('?');
         let andAry = uriAry[1].split('&');
+
         for (let k in andAry) {
             if (andAry[k].indexOf('productListFilter=') != -1) {
                 this.category = andAry[k].split('=')[1];
             }
         }
-        // console.log(this.category);
 
         getProductNoParam('/dummy_data/sub/shop/accProductInfo.json').then(res => { /* 악세사리 전체상품 (기본 노출) */
             const { response } = res.request;
@@ -89,6 +94,7 @@ export default {
             console.log(this.products);
         });
     },
+
     methods: {
         productListMore($state) { /* 악세사리 전체상품 (스크롤 시 노출) */
             getProductNoParam('/dummy_data/sub/shop/accProductInfo.json').then(res => {
@@ -118,9 +124,6 @@ export default {
                 }, 800)
             });
         }
-    },
-    watch: {
-
     },
 };
 </script>

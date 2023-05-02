@@ -10,12 +10,14 @@
 //
 // Vue.prototype.$firebase = firebase // 전역으로 사용하기 위함
 
+import {isSuperAdmin, superAdmin} from "@/assets/js/common";
+
 console.log("firebase db server load");
 
-import {initializeApp} from "firebase/app";
-import {getAuth, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, GoogleAuthProvider, FacebookAuthProvider} from "firebase/auth";
-import {getFirestore} from "firebase/firestore";
-import {getStorage} from "firebase/storage";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import firebaseConfig from "../../firebase.config";
 
 export const app = initializeApp(firebaseConfig);
