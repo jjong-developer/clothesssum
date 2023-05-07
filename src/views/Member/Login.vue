@@ -38,6 +38,7 @@ import SnsLogin from "@/components/SingInUp/SnsLogin";
 import { emailCheck, siteReload } from "@/assets/js/common.js";
 import { signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
 import { dbAuth } from "@/plugins/firebase.js";
+// import { uwafgkkgkg } from "@/main.js";
 
 export default {
     name: "Login",
@@ -58,14 +59,8 @@ export default {
         }
     },
 
-    created () {
-
-    },
-
     mounted() {
-        onAuthStateChanged(dbAuth, (user) => { // 로그인 상태 여/부
-           console.log(user);
-        });
+
     },
 
     methods: {
@@ -88,8 +83,6 @@ export default {
             }
 
             signInWithEmailAndPassword(dbAuth, userEmail.value, userPassWord.value).then(result => {
-                console.log(result.user.emailVerified);
-
                 if (result.user.emailVerified) { // 이메일 인증한 유저만 로그인 가능 (boolean 값)
                     siteReload('/');
                 } else {

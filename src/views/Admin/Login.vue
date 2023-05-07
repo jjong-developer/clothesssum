@@ -22,9 +22,9 @@
 
 <script>
 import SnsLogin from "@/components/SingInUp/SnsLogin";
-import { emailCheck, siteReload, superAdmin } from "@/assets/js/common.js";
-import { onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
-import { dbAuth } from "@/plugins/firebase";
+import { emailCheck, superAdmin } from "@/assets/js/common.js";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { dbAuth } from "@/plugins/firebase.js";
 
 export default {
     name: "Login",
@@ -35,12 +35,16 @@ export default {
 
     data() {
         return {
-            // isSuperAdmin,
+
         }
     },
 
     mounted() {
-        // this.isSuperAdmin = false;
+        onAuthStateChanged(dbAuth, (user) => { // 로그인 상태 여/부
+            if (user && superAdmin.includes(user.email)) {
+                this.$router.push('/Admin/Adminmaster');
+            }
+        });
     },
 
     methods: {
@@ -64,8 +68,6 @@ export default {
 
             signInWithEmailAndPassword(dbAuth, userEmail.value, userPassWord.value).then(result => {
                 onAuthStateChanged(dbAuth, (user) => { // 로그인 상태 여/부
-                    console.log(user);
-
                     if (user && result.user.emailVerified && superAdmin.includes(user.email)) {
                         this.$router.push('/Admin/Adminmaster');
                     } else {
