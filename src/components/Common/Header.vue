@@ -21,7 +21,7 @@
             </div>
             <div class="menu-list-wrap">
                 <div class="my-info-wrap">
-                    <ul v-if="this.isUser === null">
+                    <ul v-if="isUser === null || isUser.emailVerified === false">
                         <li>
                             <router-link to="/Member/Login">login</router-link>
                         </li>
@@ -32,6 +32,9 @@
                     <ul v-else>
                         <li>
                             <router-link to="" @click.native="logout();">logout</router-link>
+                        </li>
+                        <li v-if="superAdmin.includes(isUser.email)">
+                            <router-link to="/Admin/Adminmaster" target="_blank">admin</router-link>
                         </li>
                         <li>
                             <router-link to="/Member/MyInfo">my info</router-link>
@@ -84,9 +87,9 @@
 </template>
 
 <script>
+import { siteReload, superAdmin } from "@/assets/js/common.js";
 import { dbAuth } from "@/plugins/firebase.js";
-import { onAuthStateChanged } from "firebase/auth";
-import { siteReload } from "@/assets/js/common.js";
+import { isUser } from "@/main.js";
 
 export default {
 	name: "Header",
@@ -98,15 +101,13 @@ export default {
 	data() {
 		return {
             category: 'all',
-            isUser: '',
+            isUser,
+            superAdmin,
 		}
 	},
 
     mounted() {
-        onAuthStateChanged(dbAuth, (user) => { // 로그인 상태 여/부
-            this.isUser = user;
-            // console.log(this.isUser);
-        });
+	    console.log(isUser);
     },
 
     methods: {

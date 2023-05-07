@@ -32,9 +32,9 @@
                             <input id="postCode" type="text" placeholder="" readonly="readonly">
                             <button class="defalut-w-btn" @click="addressSearch()">검색하기</button>
                         </div>
-                        <input id="roadAddress" type="text" placeholder="도로명 주소" readonly="readonly">
-                        <input id="jibunAddress" type="text" placeholder="지번 주소" readonly="readonly">
-                        <input id="detailAddress" type="text" placeholder="상세 주소">
+                        <input id="roadAddress" type="text" name="address" placeholder="도로명 주소" readonly="readonly">
+                        <input id="jibunAddress" type="text" name="address" placeholder="지번 주소" readonly="readonly">
+                        <input id="detailAddress" type="text" name="address" placeholder="상세 주소">
                     </div>
                     <div class="sign-up-content-wrap">
                         <label class="chk-list-label">
@@ -76,24 +76,29 @@ import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
 import { emailCheck, phoneNumberCheck, regexPhoneNumber, siteReload } from "@/assets/js/common.js";
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
-import { dbAuth } from "@/plugins/firebase.js";
+import { dbAuth, dbService, dbAddDoc, dbCollection } from "@/plugins/firebase.js";
+import { isUser } from "@/main.js";
 
 export default {
     name: "Join",
+
     components: {
         Header,
         Footer,
     },
+
     data() {
         return {
+            isUser,
             userName: '',
             userEmail: '',
             userPassword: '',
             userPhoneNumber: '',
+            userAddress: '',
         }
     },
+
     mounted() {
-        // onAuthStateChanged();
         /**
          * 실시간 phone number input key 체크
          */
@@ -128,16 +133,8 @@ export default {
                 }
             });
         }
-
-        // onAuthStateChanged(dbAuth, (user) => {
-        //     if (user) {
-        //         console.log("로그인 상태입니다.");
-        //         console.log(user);
-        //     } else {
-        //         console.log("로그인 상태가 아닙니다.");
-        //     }
-        // });
     },
+
     methods: {
         addressSearch() {
             new window.daum.Postcode({
@@ -175,12 +172,12 @@ export default {
             let user_re_password = document.querySelector('#user_re_password');
             let userPhoneNumber = document.querySelector('#userPhoneNumber');
             let addressInput = document.querySelectorAll('.address-wrap input');
-            let addressVal = '';
+            let address = '';
             let isChkListEssential;
             let chkListEssential = document.querySelectorAll('.chk-list-label.chk-list-essential .chk-list-item');
 
             addressInput.forEach((el) => {
-                addressVal = el.value;
+                address = el.value;
             });
 
             // chkListEssential.forEach((el) => {
@@ -223,7 +220,7 @@ export default {
                 alert('핸드폰번호를 정확히 입력해주세요.');
                 userPhoneNumber.focus();
                 return;
-            } else if (!addressVal) {
+            } else if (!address) {
                 alert('주소을(를) 입력해주세요.');
                 return;
             } else if (isChkListEssential !== true) {
@@ -234,10 +231,20 @@ export default {
             this.userName = document.querySelector('input[name=userName]').value;
             this.userEmail = document.querySelector('input[name=userEmail]').value;
             this.userPassword = document.querySelector('input[name=userPassword]').value;
+            this.userPhoneNumber = document.querySelector('input[name=userPhoneNumber]').value;
+            this.userAddress = document.querySelector('input[name=address]').value;
 
             createUserWithEmailAndPassword(dbAuth, this.userEmail, this.userPassword).then((result) => {
+                dbAddDoc(dbCollection(dbService, 'users'), { // 회원가입 시 정보를 별도로 컬랙션에 저장
+                    name: this.userName,
+                    email: this.userEmail,
+                    phoneNumber: this.userPhoneNumber,
+                    address: this.userAddress,
+                    // emailVerified: isUser.emailVerified,
+                });
+
                 updateProfile(result.user, {
-                    displayName: this.userName
+                    displayName: this.userName,
                 }).then(() => {
                     sendEmailVerification(dbAuth.currentUser).then(() => {});
                     dbAuth.signOut(); // createUserWithEmailAndPassword 함수는 자동으로 로그인 되기때문에 메일 인증을 하기위해 로그아웃을 바로 실행

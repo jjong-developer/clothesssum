@@ -2,14 +2,21 @@
 import Vue from 'vue';
 import App from '@/App.vue';
 import router from '@/router';
-import '@/plugins/firebase';
+import { dbAuth } from '@/plugins/firebase.js';
+import { onAuthStateChanged } from "firebase/auth";
+
+export let isUser;
 
 Vue.config.productionTip = false
 Vue.filter('commaChk', val => { /* 숫자 정규식 체크하여 콤마 표시 */
-  return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 })
 
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+onAuthStateChanged(dbAuth, (user) => { // 로그인 상태 여/부
+    isUser = user;
+
+    new Vue({
+        router,
+        render: h => h(App)
+    }).$mount('#app')
+});
