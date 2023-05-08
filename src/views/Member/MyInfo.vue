@@ -8,11 +8,11 @@
                     <h2>회원 정보 수정</h2>
                     <div>
                         <label for="userName">이름</label>
-                        <input id="userName" type="text" name="userName" :value="isUser.displayName" autocomplete="off" placeholder="" disabled="disabled" />
+                        <input id="userName" type="text" name="userName" :value="this.name" autocomplete="off" placeholder="" readonly="readonly" />
                     </div>
                     <div>
                         <label for="userEmail">이메일</label>
-                        <input id="userEmail" type="email" name="userEmail" :value="isUser.email" autocomplete="off" placeholder="" disabled="disabled" />
+                        <input id="userEmail" type="email" name="userEmail" :value="this.email" autocomplete="off" placeholder="" readonly="readonly" />
                     </div>
                     <div>
                         <label for="userPassword">비밀번호</label>
@@ -24,7 +24,7 @@
                     </div>
                     <div>
                         <label for="userPhoneNumber">휴대폰 번호</label>
-                        <input id="userPhoneNumber" type="tel" name="userPhoneNumber" value="" maxlength="13" autocomplete="off" placeholder="'-'를 제외하고 입력해주세요." />
+                        <input id="userPhoneNumber" type="tel" name="userPhoneNumber" :value="this.phoneNumber" maxlength="13" autocomplete="off" placeholder="'-'를 제외하고 입력해주세요." />
                     </div>
                     <div class="address-wrap">
                         <label>주소</label>
@@ -32,36 +32,21 @@
                             <input id="postCode" type="text" placeholder="" readonly="readonly">
                             <button class="defalut-w-btn" @click="addressSearch()">검색하기</button>
                         </div>
-                        <input id="roadAddress" type="text" placeholder="도로명 주소" readonly="readonly">
-                        <input id="jibunAddress" type="text" placeholder="지번 주소" readonly="readonly">
-                        <input id="detailAddress" type="text" placeholder="상세 주소">
+                        <input id="roadAddress" type="text" name="roadAddress" placeholder="도로명 주소" readonly="readonly">
+                        <input id="jibunAddress" type="text" name="jibunAddress" placeholder="지번 주소" readonly="readonly">
+                        <input id="detailAddress" type="text" name="detailAddress" :value="this.detailAddress" placeholder="상세 주소">
                     </div>
                     <div class="sign-up-content-wrap">
-                        <label class="chk-list-label">
-                            <input class="chk-list-item" type="checkbox" name="chkAll" value="">
-                            <span class="chk-list-mark"></span>
-                            <span id="chkAll" class="chk-list-text">모두 동의합니다.</span>
-                        </label>
-                        <label class="chk-list-label chk-list-essential">
-                            <input class="chk-list-item" type="checkbox" name="chkList" value="">
-                            <span class="chk-list-mark"></span>
-                            <span class="chk-list-text">[필수] <router-link to="/policy/1" target="_blank">이용약관</router-link>과 <router-link to="/policy/2" target="_blank">개인정보처리방침</router-link>에 동의합니다.</span>
-                        </label>
-                        <label class="chk-list-label chk-list-essential">
-                            <input class="chk-list-item" type="checkbox" name="chkList" value="">
-                            <span class="chk-list-mark"></span>
-                            <span class="chk-list-text">[필수] 만 14세 이상입니다.</span>
-                            <p>만 19세 미만의 미성년자가 결제 시 법정대리인이 거래를 취소할 수 있습니다.</p>
-                        </label>
+                        <label>이메일 수신여부</label>
                         <label class="chk-list-label">
                             <input class="chk-list-item" type="checkbox" name="chkList" value="">
                             <span class="chk-list-mark"></span>
-                            <span class="chk-list-text">[선택] 이메일 및 SMS 마케팅 정보 수신에 동의합니다.</span>
-                            <p>회원은 언제든지 회원 정보에서 수신 거부로 변경할 수 있습니다.</p>
+                            <span class="chk-list-text">이메일 및 SMS 마케팅 정보 수신에 동의합니다.</span>
                         </label>
                     </div>
-                    <div>
-                        <button class="wd-100 defalut-btn" type="button" @click="signUp();">가입하기</button>
+                    <div class="btn-wrap">
+                        <button class="wd-100 defalut-w-btn" type="button" @click="userDelete();">회원탈퇴</button>
+                        <button class="wd-100 defalut-btn" type="button" @click="userEdit();">수정하기</button>
                     </div>
                 </div>
             </div>
@@ -74,8 +59,10 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import { dbService, dbCollection, dbGetDoc } from "@/plugins/firebase.js";
+import { deleteUser } from "firebase/auth";
+import { dbAuth, dbService, dbCollection, dbGetDoc } from "@/plugins/firebase.js";
 import { isUser } from "@/main.js";
+import {siteReload} from "@/assets/js/common";
 
 export default {
     name: "MyInfo",
@@ -88,39 +75,57 @@ export default {
     data() {
         return {
             isUser,
+            docData: '',
+            name: '',
+            email: '',
+            phoneNumber: '',
+            detailAddress: '',
         }
     },
 
     mounted() {
-        dbGetDoc(dbCollection(dbService, 'users')).forEach((doc) => {
-            // 가져온 모든 문서들을 확인
-            console.log(doc.id, " => ", doc.data());
-        });
-
-        // document.querySelectorAll('.sign-content input').forEach((doc) => {
-        //     // 가져온 모든 문서들을 확인
-        //     console.log(doc.id, " => ", doc.data());
-        // });
-
-        // dbGetDoc(dbCollection(dbService, 'users')).forEach(dbDoc => {
-        //     console.log(dbDoc.data());
-        // })
-        // if (docSnap.exists()) {
-        //     console.log(docSnap.data());
-        // } else {
-        //     console.log("No such document!");
-        // }
-
-        // dbGetDoc(dbCollection(doc(dbService, 'users')), { // 회원가입 시 정보를 불러오기위함
-        //     name: this.userName,
-        //     email: this.userEmail,
-        //     phoneNumber: this.userPhoneNumber,
-        //     address: this.userAddress,
-        // });
+        this.getUsers();
     },
 
     methods: {
+        /**
+         * 회원가입 시 회원 정보를 불러오기위함
+         */
+        async getUsers() {
+            const usersQuery = await dbGetDoc(dbCollection(dbService, 'users'));
 
+            usersQuery.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data());
+
+                this.docData = doc.data()
+                this.name = this.docData.name;
+                this.email = this.docData.email;
+                this.phoneNumber = this.docData.phoneNumber;
+                this.detailAddress = this.docData.detailAddress;
+            });
+        },
+
+        /**
+         * 회원 정보 수정
+         */
+        userEdit() {
+
+        },
+
+        /**
+         * 회원 탈퇴
+         */
+        userDelete() {
+            if (confirm(this.name + ' 회원님의 정보 복구 및 동일한 이메일로 재가입이 불가합니다.\n정말로 탈퇴 하시겠습니까?') === true) {
+                deleteUser(dbAuth.currentUser).then(() => {
+                    alert('정상적으로 탈퇴 처리가 되었습니다.\n이용해 주셔서 감사합니다.');
+                    siteReload('/');
+                }).catch((error) => {
+                    console.log(error);
+                    alert('비정상으로 탈퇴 처리가 되었습니다.\n잠시 후 다시 시도해주세요.');
+                });
+            }
+        },
     },
 };
 </script>

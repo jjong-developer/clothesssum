@@ -95,6 +95,8 @@ export default {
             userPassword: '',
             userPhoneNumber: '',
             userAddress: '',
+            userFullAddress: '',
+            userDetailAddress: '',
         }
     },
 
@@ -171,13 +173,13 @@ export default {
             let userPassword = document.querySelector('#userPassword');
             let user_re_password = document.querySelector('#user_re_password');
             let userPhoneNumber = document.querySelector('#userPhoneNumber');
-            let addressInput = document.querySelectorAll('.address-wrap input');
-            let address = '';
+            let addressDetailInput = document.querySelectorAll('.address-wrap input');
+            let addressDetail = '';
             let isChkListEssential;
             let chkListEssential = document.querySelectorAll('.chk-list-label.chk-list-essential .chk-list-item');
 
-            addressInput.forEach((el) => {
-                address = el.value;
+            addressDetailInput.forEach((el) => {
+                addressDetail = el.value;
             });
 
             // chkListEssential.forEach((el) => {
@@ -220,7 +222,7 @@ export default {
                 alert('핸드폰번호를 정확히 입력해주세요.');
                 userPhoneNumber.focus();
                 return;
-            } else if (!address) {
+            } else if (!addressDetail) {
                 alert('주소을(를) 입력해주세요.');
                 return;
             } else if (isChkListEssential !== true) {
@@ -233,14 +235,17 @@ export default {
             this.userPassword = document.querySelector('input[name=userPassword]').value;
             this.userPhoneNumber = document.querySelector('input[name=userPhoneNumber]').value;
             this.userAddress = document.querySelector('input[name=address]').value;
+            this.userFullAddress = this.userAddress.concat(' ', addressDetail);
+            this.userDetailAddress = addressDetail;
 
             createUserWithEmailAndPassword(dbAuth, this.userEmail, this.userPassword).then((result) => {
                 dbAddDoc(dbCollection(dbService, 'users'), { // 회원가입 시 정보를 별도로 컬랙션에 저장
                     name: this.userName,
                     email: this.userEmail,
                     phoneNumber: this.userPhoneNumber,
+                    fullAddress: this.userFullAddress,
                     address: this.userAddress,
-                    // emailVerified: isUser.emailVerified,
+                    detailAddress: this.userDetailAddress,
                 });
 
                 updateProfile(result.user, {
