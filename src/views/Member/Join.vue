@@ -53,7 +53,7 @@
                             <span class="chk-list-text">[필수] 만 14세 이상입니다.</span>
                             <p>만 19세 미만의 미성년자가 결제 시 법정대리인이 거래를 취소할 수 있습니다.</p>
                         </label>
-                        <label class="chk-list-label">
+                        <label class="chk-list-label chk-list-unessential">
                             <input class="chk-list-item" type="checkbox" name="chkList" value="">
                             <span class="chk-list-mark"></span>
                             <span class="chk-list-text">[선택] 이메일 및 SMS 마케팅 정보 수신에 동의합니다.</span>
@@ -74,10 +74,10 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import { emailCheck, phoneNumberCheck, regexPhoneNumber, siteReload } from "@/assets/js/common.js";
-import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
-import { dbAuth, dbService, dbAddDoc, dbCollection } from "@/plugins/firebase.js";
-import { isUser } from "@/main.js";
+import {emailCheck, phoneNumberCheck, regexPhoneNumber, siteReload} from "@/assets/js/common.js";
+import {createUserWithEmailAndPassword, updateProfile, sendEmailVerification} from "firebase/auth";
+import {dbAuth, dbService, dbAddDoc, dbCollection} from "@/plugins/firebase.js";
+import {isUser} from "@/main.js";
 
 export default {
     name: "Join",
@@ -94,9 +94,15 @@ export default {
             userEmail: '',
             userPassword: '',
             userPhoneNumber: '',
+            phoneNumCheck: '',
             userAddress: '',
             userFullAddress: '',
+            userPostCode: '',
+            userRoadAddress: '',
+            userJibunAddress: '',
             userDetailAddress: '',
+            isChkListEssential: Boolean,
+            isChkListUnEssential: Boolean,
         }
     },
 
@@ -104,9 +110,8 @@ export default {
         /**
          * 실시간 phone number input key 체크
          */
-        let phoneNumCheck = document.querySelector('#userPhoneNumber');
-
-        phoneNumCheck.addEventListener('keyup', (e) => {
+        this.phoneNumCheck = document.querySelector('input[name=userPhoneNumber]');
+        this.phoneNumCheck.addEventListener('keyup', (e) => {
             regexPhoneNumber(e.target);
         });
 
@@ -119,6 +124,7 @@ export default {
         getChkListItemAll.addEventListener('click', () => {
             getChkListItem.forEach((checkbox) => {
                 checkbox.checked = getChkListItemAll.checked
+                this.isChkListUnEssential = true;
             })
         });
 
@@ -135,6 +141,19 @@ export default {
                 }
             });
         }
+
+        /**
+         * 선택 항목 선택 유,무
+         */
+        let chkListUnEssential = document.querySelector('.chk-list-label.chk-list-unessential .chk-list-item');
+
+        chkListUnEssential.addEventListener('change', (e) => {
+            if (e.target.checked === true) {
+                this.isChkListUnEssential = true;
+            } else {
+                this.isChkListUnEssential = false;
+            }
+        });
     },
 
     methods: {
@@ -167,16 +186,19 @@ export default {
             }).open();
         },
 
+        // chkListUnEssential() {
+        //     console.log("aaa");
+        // },
+
         signUp() {
-            let userName = document.querySelector('#userName');
-            let userEmail = document.querySelector('#userEmail');
-            let userPassword = document.querySelector('#userPassword');
-            let user_re_password = document.querySelector('#user_re_password');
-            let userPhoneNumber = document.querySelector('#userPhoneNumber');
+            let userName = document.querySelector('input[name=userName]');
+            let userEmail = document.querySelector('input[name=userEmail]');
+            let userPassword = document.querySelector('input[name=userPassword]');
+            let user_re_password = document.querySelector('input[name=user_re_password]');
+            let userPhoneNumber = document.querySelector('input[name=userPhoneNumber]');
             let addressDetailInput = document.querySelectorAll('.address-wrap input');
             let addressDetail = '';
-            let isChkListEssential;
-            let chkListEssential = document.querySelectorAll('.chk-list-label.chk-list-essential .chk-list-item');
+            let chkListEssential = document.querySelectorAll('.chk-list-label.chk-list-essential .chk-list-item'); // 필수 선택
 
             addressDetailInput.forEach((el) => {
                 addressDetail = el.value;
@@ -185,17 +207,17 @@ export default {
             // chkListEssential.forEach((el) => {
             //     el.addEventListener('change', (e) => {
             //         if (e.target.checked === true) {
-            //             isChkListEssential = true;
-            //             console.log(isChkListEssential);
+            //             this.isChkListEssential = true;
+            //             console.log(this.isChkListEssential);
             //         } else {
-            //             isChkListEssential = false;
-            //             console.log(isChkListEssential);
+            //             this.isChkListEssential = false;
+            //             console.log(this.isChkListEssential);
             //         }
             //     });
             // });
 
             for (let i = 0; i < chkListEssential.length; i += 1) {
-                (chkListEssential[i].checked === true) ? isChkListEssential = true : isChkListEssential = false;
+                (chkListEssential[i].checked === true) ? this.isChkListEssential = true : this.isChkListEssential = false;
             }
 
             if (!userName.value) {
@@ -225,7 +247,7 @@ export default {
             } else if (!addressDetail) {
                 alert('주소을(를) 입력해주세요.');
                 return;
-            } else if (isChkListEssential !== true) {
+            } else if (this.isChkListEssential !== true) {
                 alert('필수 항목에 동의하세요.');
                 return;
             }
@@ -236,18 +258,12 @@ export default {
             this.userPhoneNumber = document.querySelector('input[name=userPhoneNumber]').value;
             this.userAddress = document.querySelector('input[name=address]').value;
             this.userFullAddress = this.userAddress.concat(' ', addressDetail);
+            this.userPostCode =  document.querySelector('#postCode').value;
+            this.userRoadAddress = document.querySelector('#roadAddress').value;
+            this.userJibunAddress = document.querySelector('#jibunAddress').value;
             this.userDetailAddress = addressDetail;
 
             createUserWithEmailAndPassword(dbAuth, this.userEmail, this.userPassword).then((result) => {
-                dbAddDoc(dbCollection(dbService, 'users'), { // 회원가입 시 정보를 별도로 컬랙션에 저장
-                    name: this.userName,
-                    email: this.userEmail,
-                    phoneNumber: this.userPhoneNumber,
-                    fullAddress: this.userFullAddress,
-                    address: this.userAddress,
-                    detailAddress: this.userDetailAddress,
-                });
-
                 updateProfile(result.user, {
                     displayName: this.userName,
                 }).then(() => {
@@ -258,6 +274,20 @@ export default {
                     siteReload('/');
                 }).catch((error) => {
                     console.log(error.message);
+                });
+
+                dbAddDoc(dbCollection(dbService, 'users'), { // 회원가입 시 정보를 별도로 DB 저장
+                    name: this.userName,
+                    email: this.userEmail,
+                    phoneNumber: this.userPhoneNumber,
+                    fullAddress: this.userFullAddress,
+                    postCode: this.userPostCode,
+                    roadAddress: this.userRoadAddress,
+                    jibunAddress: this.userJibunAddress,
+                    address: this.userAddress,
+                    detailAddress: this.userDetailAddress,
+                    isChkListUnEssential: this.isChkListUnEssential,
+                    uid: isUser.uid,
                 });
             }).catch(error => {
                 console.log(error.message);

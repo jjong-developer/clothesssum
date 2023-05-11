@@ -87,9 +87,9 @@
 </template>
 
 <script>
-import { siteReload, superAdmin } from "@/assets/js/common.js";
-import { dbAuth } from "@/plugins/firebase.js";
-import { isUser } from "@/main.js";
+import {siteReload, superAdmin} from "@/assets/js/common.js";
+import {dbAuth} from "@/plugins/firebase.js";
+import {isUser} from "@/main.js";
 
 export default {
 	name: "Header",
@@ -100,10 +100,10 @@ export default {
 
 	data() {
 		return {
-            category: 'all',
             isUser,
             superAdmin,
-		}
+            category: 'all',
+        }
 	},
 
     mounted() {
@@ -111,10 +111,10 @@ export default {
     },
 
     methods: {
-        logout() {
+	    logout() {
             dbAuth.signOut();
             siteReload('/');
-        }
+        },
 	},
 };
 </script>
