@@ -1,3 +1,8 @@
+console.log("firebase db server load");
+
+/**
+ * version 8
+ */
 // import Vue from 'vue'
 // import firebase from 'firebase/app'
 // import 'firebase/auth'
@@ -12,18 +17,19 @@
 
 import {isSuperAdmin, superAdmin} from "@/assets/js/common";
 
-console.log("firebase db server load");
-
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
-import { getFirestore, addDoc, getDocs, collection } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+/**
+ * version 9
+ */
+import {initializeApp} from "firebase/app";
+import {getAuth, GoogleAuthProvider, FacebookAuthProvider} from "firebase/auth";
+import {getFirestore, addDoc, getDocs, collection} from "firebase/firestore";
+import {getStorage} from "firebase/storage";
 import firebaseConfig from "../../firebase.config";
 
 export const app = initializeApp(firebaseConfig);
 export const dbAuth = getAuth();
 export const dbAddDoc = addDoc;
-export const dbGetDoc = getDocs;
+export const dbGetDocs = getDocs;
 export const dbCollection = collection;
 export const dbService = getFirestore(app);
 export const dbStorage = getStorage(app);
