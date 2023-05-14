@@ -2,7 +2,7 @@
     <div>
         <div class="sign-content-wrap">
             <div class="sign-content">
-                <h2>관리자 로그인</h2>
+                <h2 class="page-title">관리자 로그인</h2>
                 <div>
                     <label>이메일</label>
                     <input id="userEmail" type="text" name="userEmail" value="" autocomplete="off" placeholder="" />
@@ -22,9 +22,9 @@
 
 <script>
 import SnsLogin from "@/components/SingInUp/SnsLogin";
-import { emailCheck, superAdmin } from "@/assets/js/common.js";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { dbAuth } from "@/plugins/firebase.js";
+import {emailCheck, superAdmin} from "@/assets/js/common.js";
+import {onAuthStateChanged, signInWithEmailAndPassword} from "firebase/auth";
+import {dbAuth} from "@/plugins/firebase.js";
 
 export default {
     name: "Login",
@@ -76,7 +76,7 @@ export default {
                 });
             }).catch(error => {
                 console.log(error);
-                alert('회원 정보가 일치하지 않습니다.\n회원이 아니시라면 회원 가입 후 이용해주세요.');
+                alert('아이디 또는 비밀번호가 일치하지 않습니다.\n회원이 아니시라면 회원 가입 후 이용해주세요.');
             });
         },
     },

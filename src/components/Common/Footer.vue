@@ -38,7 +38,7 @@
                 <div class="footer-portfolio">
                     <div>본 사이트는 상업적 목적이 아닌 개인 포트폴리오용으로 제작되었습니다.</div>
                     <div>본 사이트는 관리자 기능이 포함되어 있습니다.</div>
-                    <div>©Copyright 2023. clothessome. All right reserved</div>
+                    <div>©Copyright 2023. clothesssum. All right reserved</div>
                 </div>
             </div>
         </footer>

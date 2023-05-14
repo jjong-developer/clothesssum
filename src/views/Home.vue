@@ -34,9 +34,9 @@
                     </li>
                 </ul>
             </div>
-<!--            <infinite-loading @infinite="mainProductListMore" spinner="bubbles">-->
-<!--                <div class="product-no-item" slot="no-more">더 이상 상품이 없습니다 :)</div>-->
-<!--            </infinite-loading>-->
+            <infinite-loading @infinite="mainProductListMore" spinner="bubbles">
+                <div class="product-no-item" slot="no-more">더 이상 상품이 없습니다 :)</div>
+            </infinite-loading>
         </div>
 
         <Footer></Footer>
@@ -44,14 +44,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import { getProductNoParam } from "@/assets/js/api";
-import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import {getProductNoParam} from "@/assets/js/api";
+import {Swiper, SwiperSlide} from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
-// import InfiniteLoading from "vue-infinite-loading";
-// import axios from 'axios'
+import InfiniteLoading from "vue-infinite-loading";
+import axios from "axios"
 
 export default {
     name: 'Home',
@@ -61,7 +61,7 @@ export default {
         Footer,
         Swiper,
         SwiperSlide,
-        // InfiniteLoading
+        InfiniteLoading
     },
 
     data() {
@@ -72,9 +72,6 @@ export default {
             swiperOption: {
                 slidesPerView: 4,
                 spaceBetween: 30,
-                // loop: true,
-                // loopedSlides: 1,
-                // centeredSlides: true,
                 autoplay : {
                     delay : 3000,
                     disableOnInteraction : false,
@@ -94,13 +91,11 @@ export default {
     },
 
     mounted() {
-        // console.log(this.$firebase);
-
         getProductNoParam('/dummy_data/main/productInfo.json').then(res => { /* 메인 상품 (기본 노출) */
-            const { response } = res.request;
+            const {response} = res.request;
             const json = JSON.parse(response);
             const result = json;
-            const { productInfo, productInfoResult } = result;
+            const {productInfo, productInfoResult} = result;
 
             console.log(productInfo);
             console.log(productInfoResult);
@@ -111,50 +106,50 @@ export default {
     },
 
     methods: {
-        // mainProductListMore($state) { /* 메인 상품 (스크롤 시 노출) */
-        //     getProductNoParam('/dummy_data/main/productInfo.json').then(res => {
-        //         const { response } = res.request;
-        //         const json = JSON.parse(response);
-        //         const result = json;
-        //         const { productInfo, productInfoResult } = result;
-        //
-        //         console.log(productInfo);
-        //         console.log(productInfoResult);
-        //
-        //         this.productsMore = productInfo.productList;
-        //
-        //         if (this.products.length > 50) {
-        //             alert("더 이상 상품이 없습니다 :)");
-        //             $state.complete();
-        //             return false;
-        //         }
-        //
-        //         setTimeout(() => {
-        //             if (this.productsMore.length) {
-        //                 this.products = this.products.concat(this.productsMore);
-        //
-        //                 console.log(this.products.length);
-        //
-        //                 $state.loaded();
-        //             } else {
-        //                 $state.complete();
-        //             }
-        //         }, 800)
-        //     });
-        //     // axios.get("/dummy_data/main/productInfo.json", {}).then(({data}) => {
-        //     //     console.log(data);
-        //     //     console.log(data.productInfo.productList);
-        //     //
-        //     //     setTimeout(() => {
-        //     //         if (data.productInfo.productList) {
-        //     //             this.products = this.products.concat(data.productInfo.productList);
-        //     //             $state.loaded();
-        //     //         } else {
-        //     //             $state.complete();
-        //     //         }
-        //     //     }, 600)
-        //     // });
-        // }
+        mainProductListMore($state) { /* 메인 상품 (스크롤 시 노출) */
+            getProductNoParam('/dummy_data/main/productInfo.json').then(res => {
+                const { response } = res.request;
+                const json = JSON.parse(response);
+                const result = json;
+                const { productInfo, productInfoResult } = result;
+
+                console.log(productInfo);
+                console.log(productInfoResult);
+
+                this.productsMore = productInfo.productList;
+
+                if (this.products.length > 50) {
+                    alert('더 이상 상품이 없습니다.');
+                    $state.complete();
+                    return false;
+                }
+
+                setTimeout(() => {
+                    if (this.productsMore.length) {
+                        this.products = this.products.concat(this.productsMore);
+
+                        console.log(this.products.length);
+
+                        $state.loaded();
+                    } else {
+                        $state.complete();
+                    }
+                }, 800)
+            });
+            // axios.get("/dummy_data/main/productInfo.json", {}).then(({data}) => {
+            //     console.log(data);
+            //     console.log(data.productInfo.productList);
+            //
+            //     setTimeout(() => {
+            //         if (data.productInfo.productList) {
+            //             this.products = this.products.concat(data.productInfo.productList);
+            //             $state.loaded();
+            //         } else {
+            //             $state.complete();
+            //         }
+            //     }, 600)
+            // });
+        }
     }
 }
 </script>

@@ -3,6 +3,7 @@
         <Header></Header>
 
         <div class="right-wrap">
+            <h2 class="page-title">공지사항 글쓰기</h2>
             <div class="board-wrap">
                 <div class="board-write-wrap">
                     <label>작성자</label>

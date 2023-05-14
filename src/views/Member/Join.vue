@@ -5,7 +5,7 @@
         <div class="right-wrap">
             <div class="sign-content-wrap not-page-height">
                 <div class="sign-content">
-                    <h2>회원 가입</h2>
+                    <h2 class="page-title">회원 가입</h2>
                     <div>
                         <label for="userName">이름</label>
                         <input id="userName" type="text" name="userName" value="" autocomplete="off" placeholder="" />
@@ -30,7 +30,7 @@
                         <label>주소</label>
                         <div class="col-70-25">
                             <input id="postCode" type="text" placeholder="" readonly="readonly">
-                            <button class="defalut-w-btn" @click="addressSearch()">검색하기</button>
+                            <button class="defalut-w-btn" @click="addressSearch();">검색하기</button>
                         </div>
                         <input id="roadAddress" type="text" name="address" placeholder="도로명 주소" readonly="readonly">
                         <input id="jibunAddress" type="text" name="address" placeholder="지번 주소" readonly="readonly">
@@ -74,10 +74,10 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import {emailCheck, phoneNumberCheck, regexPhoneNumber, siteReload} from "@/assets/js/common.js";
 import {createUserWithEmailAndPassword, updateProfile, sendEmailVerification} from "firebase/auth";
 import {dbAuth, dbService, dbAddDoc, dbCollection} from "@/plugins/firebase.js";
 import {isUser} from "@/main.js";
+import {addressSearch, emailCheck, phoneNumberCheck, regexPhoneNumber, siteReload} from "@/assets/js/common.js";
 
 export default {
     name: "Join",
@@ -95,7 +95,6 @@ export default {
             userPassword: '',
             userPhoneNumber: '',
             phoneNumCheck: '',
-            userAddress: '',
             userFullAddress: '',
             userPostCode: '',
             userRoadAddress: '',
@@ -157,39 +156,14 @@ export default {
     },
 
     methods: {
-        addressSearch() {
-            new window.daum.Postcode({
-                oncomplete: (data) => {
-                    let extraRoadAddr = ''; // 참고 항목 변수
+        /**
+         * 주소 검색
+         */
+        addressSearch,
 
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                        extraRoadAddr += data.bname;
-                    }
-
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if (data.buildingName !== '' && data.apartment === 'Y') {
-                        extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if (extraRoadAddr !== '') {
-                        extraRoadAddr = ' (' + extraRoadAddr + ')';
-                    }
-
-                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    document.querySelector('#postCode').value = data.zonecode;
-                    document.querySelector('#roadAddress').value = data.roadAddress;
-                    document.querySelector('#jibunAddress').value = data.jibunAddress;
-                }
-            }).open();
-        },
-
-        // chkListUnEssential() {
-        //     console.log("aaa");
-        // },
-
+        /**
+         * 회원 가입
+         */
         signUp() {
             let userName = document.querySelector('input[name=userName]');
             let userEmail = document.querySelector('input[name=userEmail]');
@@ -256,12 +230,11 @@ export default {
             this.userEmail = document.querySelector('input[name=userEmail]').value;
             this.userPassword = document.querySelector('input[name=userPassword]').value;
             this.userPhoneNumber = document.querySelector('input[name=userPhoneNumber]').value;
-            this.userAddress = document.querySelector('input[name=address]').value;
-            this.userFullAddress = this.userAddress.concat(' ', addressDetail);
-            this.userPostCode =  document.querySelector('#postCode').value;
+            this.userPostCode = document.querySelector('#postCode').value;
             this.userRoadAddress = document.querySelector('#roadAddress').value;
             this.userJibunAddress = document.querySelector('#jibunAddress').value;
-            this.userDetailAddress = addressDetail;
+            this.userDetailAddress = document.querySelector('#detailAddress').value;
+            this.userFullAddress = this.userRoadAddress.concat(' ', this.userDetailAddress);
 
             createUserWithEmailAndPassword(dbAuth, this.userEmail, this.userPassword).then((result) => {
                 updateProfile(result.user, {
@@ -276,7 +249,7 @@ export default {
                     console.log(error.message);
                 });
 
-                dbAddDoc(dbCollection(dbService, 'users'), { // 회원가입 시 정보를 별도로 DB 저장
+                dbAddDoc(dbCollection(dbService, 'users'), { // 회원 가입 시 정보를 별도로 DB 저장
                     name: this.userName,
                     email: this.userEmail,
                     phoneNumber: this.userPhoneNumber,
@@ -284,7 +257,6 @@ export default {
                     postCode: this.userPostCode,
                     roadAddress: this.userRoadAddress,
                     jibunAddress: this.userJibunAddress,
-                    address: this.userAddress,
                     detailAddress: this.userDetailAddress,
                     isChkListUnEssential: this.isChkListUnEssential,
                     uid: isUser.uid,
