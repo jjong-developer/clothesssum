@@ -3,6 +3,7 @@
         <Header></Header>
 
         <div class="right-wrap">
+            <h2 class="page-title">공지사항</h2>
             <div class="board-wrap">
                 <table class="board-table">
                     <thead>
@@ -26,7 +27,7 @@
                 <div class="board-btn-wrap">
                     <input type="text" placeholder="" />
                     <button class="defalut-btn" type="button">검색</button>
-                    <div class="board-btn-right">
+                    <div class="board-btn-right" v-if="superAdmin.includes(isUser.email)">
                         <button class="defalut-btn" type="button" @click="write()">글쓰기</button>
                     </div>
                 </div>
@@ -40,6 +41,8 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
+import {superAdmin} from "@/assets/js/common.js";
+import {isUser} from "@/main.js";
 
 export default {
     name: "List",
@@ -51,48 +54,50 @@ export default {
 
     data() {
         return {
+            isUser,
+            superAdmin,
             noticeListResult: '',
         }
     },
 
     mounted() {
-        this.$firebase.firestore().collection('notice').get().then((snapshot) => {
-            if (snapshot.docs.length === 0) {
-                let noticeListNoDatatempleat = '' +
-                    '<tr>' +
-                        '<td colspan="4">게시글이 없습니다.</td>' +
-                    '</tr>'
-
-                document.querySelector('#noticeList').innerHTML += noticeListNoDatatempleat;
-            }
-
-            snapshot.forEach((doc) => {
-                this.noticeListResult = doc.data();
-                console.log(this.noticeListResult);
-                // console.log(this.noticeListResult);
-                // const noticeListtempleat = `
-                //     <tr>
-                //         <td>${this.noticeListResult.num}</td>
-                //         <td>${this.noticeListResult.title}</td>
-                //         <td>${this.noticeListResult.author}</td>
-                //         <td>${this.noticeListResult.date}</td>
-                //     </tr>
-                // `;
-                let noticeListtempleat = '' +
-                    '<tr>' +
-                        '<td>' + this.noticeListResult.num + '</td>' + // 게시글 번호
-                        '<td id="view">' + this.noticeListResult.title + '</td>' + // 제목
-                        '<td>' + this.noticeListResult.author + '</td>' + // 작성자
-                        '<td>' + this.noticeListResult.date.replace(/ /g,"").substring(0, 8) + '</td>' + // 등록일
-                    '</tr>'
-
-                document.querySelector('#noticeList').innerHTML += noticeListtempleat;
-
-                document.querySelector('#view').addEventListener('click', () => { // 게시글 상세보기
-                    console.log("aaa");
-                })
-            })
-        });
+        // this.$firebase.firestore().collection('notice').get().then((snapshot) => {
+        //     if (snapshot.docs.length === 0) {
+        //         let noticeListNoDatatempleat = '' +
+        //             '<tr>' +
+        //                 '<td colspan="4">게시글이 없습니다.</td>' +
+        //             '</tr>'
+        //
+        //         document.querySelector('#noticeList').innerHTML += noticeListNoDatatempleat;
+        //     }
+        //
+        //     snapshot.forEach((doc) => {
+        //         this.noticeListResult = doc.data();
+        //         console.log(this.noticeListResult);
+        //         // console.log(this.noticeListResult);
+        //         // const noticeListtempleat = `
+        //         //     <tr>
+        //         //         <td>${this.noticeListResult.num}</td>
+        //         //         <td>${this.noticeListResult.title}</td>
+        //         //         <td>${this.noticeListResult.author}</td>
+        //         //         <td>${this.noticeListResult.date}</td>
+        //         //     </tr>
+        //         // `;
+        //         let noticeListtempleat = '' +
+        //             '<tr>' +
+        //                 '<td>' + this.noticeListResult.num + '</td>' + // 게시글 번호
+        //                 '<td id="view">' + this.noticeListResult.title + '</td>' + // 제목
+        //                 '<td>' + this.noticeListResult.author + '</td>' + // 작성자
+        //                 '<td>' + this.noticeListResult.date.replace(/ /g,"").substring(0, 8) + '</td>' + // 등록일
+        //             '</tr>'
+        //
+        //         document.querySelector('#noticeList').innerHTML += noticeListtempleat;
+        //
+        //         document.querySelector('#view').addEventListener('click', () => { // 게시글 상세보기
+        //             console.log("aaa");
+        //         })
+        //     })
+        // });
     },
 
     methods: {

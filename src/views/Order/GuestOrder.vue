@@ -5,7 +5,7 @@
         <div class="right-wrap">
             <div class="sign-content-wrap">
                 <div class="sign-content">
-                    <h2>비회원 주문 조회</h2>
+                    <h2 class="page-title">비회원 주문 조회</h2>
                     <div>
                         <label>이메일</label>
                         <input id="userEmail" type="email" name="userEmail" value="" autocomplete="off" placeholder="" />

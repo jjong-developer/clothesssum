@@ -5,7 +5,7 @@
         <div class="right-wrap">
             <div class="sign-content-wrap not-page-height">
                 <div class="sign-content">
-                    <h2>회원 정보 수정</h2>
+                    <h2 class="page-title">회원 정보 수정</h2>
                     <div>
                         <label for="userName">이름</label>
                         <input id="userName" type="text" name="userName" :value="this.userName" autocomplete="off" placeholder="" readonly="readonly" />
@@ -30,11 +30,11 @@
                         <label>주소</label>
                         <div class="col-70-25">
                             <input id="postCode" type="text" :value="this.userPostCode" placeholder="" readonly="readonly">
-                            <button class="defalut-w-btn" @click="addressSearch()">검색하기</button>
+                            <button class="defalut-w-btn" @click="addressSearch();">검색하기</button>
                         </div>
-                        <input id="roadAddress" type="text" name="roadAddress" :value="this.userRoadAddress" placeholder="도로명 주소" readonly="readonly">
-                        <input id="jibunAddress" type="text" name="jibunAddress" :value="this.userJibunAddress" placeholder="지번 주소" readonly="readonly">
-                        <input id="detailAddress" type="text" name="detailAddress" :value="this.userDetailAddress" placeholder="상세 주소">
+                        <input id="roadAddress" type="text" name="address" :value="this.userRoadAddress" placeholder="도로명 주소" readonly="readonly">
+                        <input id="jibunAddress" type="text" name="address" :value="this.userJibunAddress" placeholder="지번 주소" readonly="readonly">
+                        <input id="detailAddress" type="text" name="address" :value="this.userDetailAddress" placeholder="상세 주소">
                     </div>
                     <div class="sign-up-content-wrap">
                         <label>이메일 수신여부</label>
@@ -60,9 +60,9 @@
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
 import {updatePassword, deleteUser} from "firebase/auth";
-import {dbAuth, dbService, dbCollection, dbGetDocs, dbAddDoc} from "@/plugins/firebase.js";
+import {dbAuth, dbService, dbCollection, dbGetDocs, dbUpdateDoc, DOC} from "@/plugins/firebase.js";
 import {isUser} from "@/main.js";
-import {regexPhoneNumber, siteReload} from "@/assets/js/common.js";
+import {addressSearch, regexPhoneNumber, siteReload} from "@/assets/js/common.js";
 
 export default {
     name: "MyInfo",
@@ -75,6 +75,7 @@ export default {
     data() {
         return {
             isUser,
+            docID: '',
             docData: '',
             userName: '',
             userEmail: '',
@@ -82,12 +83,14 @@ export default {
             user_re_password: '',
             userPhoneNumber: '',
             phoneNumCheck: '',
+            userFullAddress: '',
             userPostCode: '',
             userRoadAddress: '',
             userJibunAddress: '',
             userDetailAddress: '',
             userUid: '',
             chkListUnEssential: '',
+            // isChkListUnEssential: Boolean,
         }
     },
 
@@ -123,8 +126,10 @@ export default {
             let usersQuery = await dbGetDocs(dbCollection(dbService, 'users'));
 
             usersQuery.forEach((doc) => {
+                // console.log(doc.id);
                 console.log(doc.data());
 
+                this.docID = doc.id
                 this.docData = doc.data()
                 this.userUid = this.docData.uid;
 
@@ -147,8 +152,33 @@ export default {
         },
 
         /**
+         * 주소 검색
+         */
+        addressSearch,
+
+        /**
          * 회원 정보 수정
          */
+        async userInfoUpdate() {
+            this.userPhoneNumber = document.querySelector('input[name=userPhoneNumber]').value;
+            this.userPostCode =  document.querySelector('#postCode').value;
+            this.userRoadAddress = document.querySelector('#roadAddress').value;
+            this.userJibunAddress = document.querySelector('#jibunAddress').value;
+            this.userDetailAddress = document.querySelector('#detailAddress').value;
+            this.userFullAddress = this.userRoadAddress.concat(' ', this.userDetailAddress);
+
+            await dbUpdateDoc(DOC(dbService, 'users', this.docID), { // 회원 정보 수정 시 별도로 DB에 업데이트
+                phoneNumber: this.userPhoneNumber,
+                postCode: this.userPostCode,
+                roadAddress: this.userRoadAddress,
+                jibunAddress: this.userJibunAddress,
+                detailAddress: (this.userDetailAddress === '') ? this.docData.detailAddress : this.userDetailAddress,
+                fullAddress: this.userFullAddress,
+                isChkListUnEssential: (this.isChkListUnEssential === undefined) ? this.docData.isChkListUnEssential : this.isChkListUnEssential,
+                uid: isUser.uid,
+            });
+        },
+
         userEdit() {
             this.userPassword = document.querySelector('input[name=userPassword]');
             this.user_re_password = document.querySelector('input[name=user_re_password]');
@@ -163,21 +193,9 @@ export default {
                 return;
             }
 
-            updatePassword(dbAuth.currentUser, this.userPassword.value).then(() => {
-                // dbAddDoc(dbCollection(dbService, 'users'), { // 회원가입 시 정보를 별도로 DB 수정
-                //     name: this.userName,
-                //     email: this.userEmail,
-                //     phoneNumber: this.userPhoneNumber,
-                //     fullAddress: this.userFullAddress,
-                //     postCode: this.userPostCode,
-                //     roadAddress: this.userRoadAddress,
-                //     jibunAddress: this.userJibunAddress,
-                //     address: this.userAddress,
-                //     detailAddress: this.userDetailAddress,
-                //     isChkListUnEssential: this.isChkListUnEssential,
-                //     uid: isUser.uid,
-                // });
+            this.userInfoUpdate();
 
+            updatePassword(dbAuth.currentUser, this.userPassword.value).then(() => {
                 alert(this.userName + ' 회원님, 정보가 정상적으로 수정되었습니다.');
                 siteReload('/');
             }).catch((error) => {
@@ -202,7 +220,7 @@ export default {
                         alert('정상적으로 탈퇴 처리가 되었습니다.\n이용해 주셔서 감사합니다.');
                         siteReload('/');
                     }).catch((error) => {
-                        console.log(error);
+                        console.log(error.message);
                         alert('비정상으로 탈퇴 처리가 되었습니다.\n잠시 후 다시 시도해주세요.');
                     });
                 }

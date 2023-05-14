@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import { onAuthStateChanged } from "firebase/auth";
-import { dbAuth } from "@/plugins/firebase";
-import { superAdmin } from "@/assets/js/common";
+import {onAuthStateChanged} from "firebase/auth";
+import {dbAuth} from "@/plugins/firebase";
+import {superAdmin} from "@/assets/js/common";
 
 export default {
     name: "Adminmaster",
