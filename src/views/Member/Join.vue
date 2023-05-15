@@ -250,16 +250,16 @@ export default {
                 });
 
                 dbAddDoc(dbCollection(dbService, 'users'), { // 회원 가입 시 정보를 별도로 DB 저장
-                    name: this.userName,
-                    email: this.userEmail,
-                    phoneNumber: this.userPhoneNumber,
-                    fullAddress: this.userFullAddress,
-                    postCode: this.userPostCode,
-                    roadAddress: this.userRoadAddress,
-                    jibunAddress: this.userJibunAddress,
-                    detailAddress: this.userDetailAddress,
-                    isChkListUnEssential: this.isChkListUnEssential,
-                    uid: isUser.uid,
+                    'name': this.userName,
+                    'email': this.userEmail,
+                    'phoneNumber': this.userPhoneNumber,
+                    'fullAddress': this.userFullAddress,
+                    'postCode': this.userPostCode,
+                    'roadAddress': this.userRoadAddress,
+                    'jibunAddress': this.userJibunAddress,
+                    'detailAddress': this.userDetailAddress,
+                    'isChkListUnEssential': this.isChkListUnEssential,
+                    'uid': isUser.uid,
                 });
             }).catch(error => {
                 console.log(error.message);

@@ -7,21 +7,21 @@
             <div class="board-wrap">
                 <div class="board-write-wrap">
                     <label>작성자</label>
-                    <input id="nameValue" type="text" value="" placeholder="작성자를 입력해주세요." />
+                    <input id="author" type="text" name="author" value="" placeholder="작성자를 입력해주세요." />
                     <label>제목</label>
-                    <input id="titleValue" type="text" value="" placeholder="제목을 입력해주세요." />
+                    <input id="title" type="text" name="title" value="" placeholder="제목을 입력해주세요." />
                     <div class="write-tool">
                         <label>내용</label>
                         <button type="button">
                             <img :src="require('@/assets/img/common/picture.png')" title="이미지 첨부" alt="이미지 첨부" />
                         </button>
                     </div>
-                    <textarea id="contentValue" value="" placeholder="내용을 입력해주세요."></textarea>
+                    <textarea id="content" name="content" value="" placeholder="내용을 입력해주세요."></textarea>
                     <label>첨부파일</label>
                     <input class="fileUpload" type="file" multiple />
                     <div class="board-btn-wrap">
-                        <button class="defalut-w-btn" type="text" @click="cancel()">취소</button>
-                        <button class="defalut-btn" type="text" @click="compleat()">완료</button>
+                        <button class="defalut-w-btn" type="text" @click="cancel();">취소</button>
+                        <button class="defalut-btn" type="text" @click="register();">등록</button>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,9 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import {goBack} from "@/assets/js/common.js";
+import {goBack, siteReload} from "@/assets/js/common.js";
+import {dbAddDoc, dbCollection, dbGetDocs, dbService} from "@/plugins/firebase.js";
+import {isUser} from "@/main";
 
 export default {
     name: "Write",
@@ -46,20 +48,18 @@ export default {
 
     data() {
         return {
-            getNameValue: '',
-            getTitleValue: '',
-            getContentValue: '',
-            setSaveFile: '',
-            getSaveFile: '',
-            fileFind: '',
-            save: '',
+            author: '', // 작성자
+            title: '', // 제목
+            contents: '', // 내용
+            setSaveFile: '', // 저장할 파일
+            getSaveFile: '', // 가져올 파일
+            fileFind: '', // 파일 찾기
             dateOptions: {
                 // year: 'numeric',
                 // month: 'numeric',
                 // day: 'numeric',
                 dateStyle: 'short'
             },
-            file_name: '',
         }
     },
 
@@ -68,35 +68,37 @@ export default {
     },
 
     methods: {
-        compleat() {
-            this.getTitleValue = document.querySelector('#titleValue').value;
-            this.getContentValue = document.querySelector('#contentValue').value;
-            this.getNameValue = document.querySelector('#nameValue').value;
+        /**
+         * 게시글 등록
+         */
+        register() {
+            this.author = document.querySelector('input[name=author]').value;
+            this.title = document.querySelector('input[name=title]').value;
+            this.contents = document.querySelector('input[name=content]').value;
 
-            // 이미지, 첨부파일 저장공간
+            // 이미지, 첨부파일
             // // this.fileFind = document.getElementById('fileUpload').files[0]; // 단일
             // this.fileFind = [...document.getElementById('fileUpload').files]; // 다중
             // this.setSaveFile = this.$firebase.storage().ref().child('notice/file/' + this.fileFind.name);
             // this.getSaveFile = this.setSaveFile.put(this.fileFind);
 
-            this.save = {
-                // 'num': this.num, // 게시글 번호
-                'title': this.getTitleValue, // 제목
-                'author': this.getNameValue, // 작성자
+            dbAddDoc(dbCollection(dbService, 'notice'), { // 회원 가입 시 정보를 별도로 DB 저장
+                'author': this.author, // 작성자
+                'title': this.title, // 제목
+                'contents': this.contents, // 내용
                 'date': new Intl.DateTimeFormat('ko', this.dateOptions).format(new Date()), // 등록일
-                'content': this.getContentValue, // 내용
-            };
-            this.$firebase.firestore().collection('notice').add(this.save).then((result) => {
-                console.log(result);
+            }).then(() => {
                 alert('게시글이 등록되었습니다.');
-                console.log(this.getSaveFile);
-                // window.location.href = '/Board/Notice/List';
+                siteReload('/Board/Notice/List');
             }).catch((error) => {
-                console.log(error);
-                alert('게시글 작성에 실패하였습니다.');
-            })
+                console.log(error.message);
+                alert('게시글 등록중에 실패하였습니다.\n잠시 후 다시 시도해주세요.');
+            });
         },
 
+        /**
+         * 게시글 취소
+         */
         cancel() {
             goBack();
         },

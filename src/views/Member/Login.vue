@@ -35,10 +35,9 @@
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
 import SnsLogin from "@/components/SingInUp/SnsLogin";
-import { emailCheck, siteReload } from "@/assets/js/common.js";
-import { signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged } from "firebase/auth";
-import { dbAuth } from "@/plugins/firebase.js";
-// import { uwafgkkgkg } from "@/main.js";
+import {emailCheck, siteReload} from "@/assets/js/common.js";
+import {signInWithEmailAndPassword, sendEmailVerification} from "firebase/auth";
+import {dbAuth} from "@/plugins/firebase.js";
 
 export default {
     name: "Login",
@@ -49,13 +48,10 @@ export default {
         SnsLogin,
     },
 
-    props: {
-
-    },
-
     data() {
         return {
-
+            userEmail: '',
+            userPassWord: '',
         }
     },
 
@@ -65,24 +61,24 @@ export default {
 
     methods: {
         loginSubmit() {
-            let userEmail = document.querySelector('#userEmail');
-            let userPassWord = document.querySelector('#userPassWord');
+            this.userEmail = document.querySelector('input[name=userEmail]');
+            this.userPassWord = document.querySelector('input[name=userPassWord]');
 
-            if (!userEmail.value) {
+            if (!this.userEmail.value) {
                 alert('이메일을(를) 입력해주세요.');
-                userEmail.focus();
+                this.userEmail.focus();
                 return;
-            } else if (!emailCheck(userEmail.value)) {
+            } else if (!emailCheck(this.userEmail.value)) {
                 alert('이메일 형식이 올바르지 않습니다.');
-                userEmail.focus();
+                this.userEmail.focus();
                 return;
-            } else if (!userPassWord.value) {
+            } else if (!this.userPassWord.value) {
                 alert('비밀번호을(를) 입력해주세요.');
-                userPassWord.focus();
+                this.userPassWord.focus();
                 return;
             }
 
-            signInWithEmailAndPassword(dbAuth, userEmail.value, userPassWord.value).then(result => {
+            signInWithEmailAndPassword(dbAuth, this.userEmail.value, this.userPassWord.value).then(result => {
                 if (result.user.emailVerified) { // 이메일 인증한 유저만 로그인 가능 (boolean 값)
                     siteReload('/');
                 } else {

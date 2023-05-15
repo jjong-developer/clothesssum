@@ -120,17 +120,17 @@ export default {
 
     methods: {
         /**
-         * 회원 정보를 불러오기위함
+         * 회원 정보를 불러오기
          */
         async getUsers() {
-            let usersQuery = await dbGetDocs(dbCollection(dbService, 'users'));
+            this.usersQuery = await dbGetDocs(dbCollection(dbService, 'users'));
 
-            usersQuery.forEach((doc) => {
+            this.usersQuery.forEach((docs) => {
                 // console.log(doc.id);
-                console.log(doc.data());
+                console.log(docs.data());
 
-                this.docID = doc.id
-                this.docData = doc.data()
+                this.docID = docs.id
+                this.docData = docs.data()
                 this.userUid = this.docData.uid;
 
                 if (isUser.uid === this.userUid) {
@@ -168,14 +168,14 @@ export default {
             this.userFullAddress = this.userRoadAddress.concat(' ', this.userDetailAddress);
 
             await dbUpdateDoc(DOC(dbService, 'users', this.docID), { // 회원 정보 수정 시 별도로 DB에 업데이트
-                phoneNumber: this.userPhoneNumber,
-                postCode: this.userPostCode,
-                roadAddress: this.userRoadAddress,
-                jibunAddress: this.userJibunAddress,
-                detailAddress: (this.userDetailAddress === '') ? this.docData.detailAddress : this.userDetailAddress,
-                fullAddress: this.userFullAddress,
-                isChkListUnEssential: (this.isChkListUnEssential === undefined) ? this.docData.isChkListUnEssential : this.isChkListUnEssential,
-                uid: isUser.uid,
+                'phoneNumber': this.userPhoneNumber,
+                'postCode': this.userPostCode,
+                'roadAddress': this.userRoadAddress,
+                'jibunAddress': this.userJibunAddress,
+                'detailAddress': (this.userDetailAddress === '') ? this.docData.detailAddress : this.userDetailAddress,
+                'fullAddress': this.userFullAddress,
+                'isChkListUnEssential': (this.isChkListUnEssential === undefined) ? this.docData.isChkListUnEssential : this.isChkListUnEssential,
+                'uid': isUser.uid,
             });
         },
 
