@@ -5,30 +5,33 @@
         <div class="right-wrap">
             <h2 class="page-title">공지사항</h2>
             <div class="board-wrap">
-                <table class="board-table">
-                    <thead>
-                        <tr>
-                            <th class="board-num">번호</th>
-                            <th class="board-title">제목</th>
-                            <th class="board-author">작성자</th>
-                            <th class="board-date">등록일</th>
-                        </tr>
-                    </thead>
-                    <tbody id="noticeList">
-                        <tr>
-                            <td>{{ noticeListResult.num }}</td>
-                            <td>{{ noticeListResult.title }}</td>
-                            <td>{{ noticeListResult.write }}</td>
-                            <td>{{ noticeListResult.date }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="board-list-wrap">
+                    <table class="board-table">
+                        <thead>
+                            <tr>
+                                <th class="board-title">제목</th>
+                                <th class="board-author">작성자</th>
+                                <th class="board-date">등록일</th>
+                            </tr>
+                        </thead>
+                        <tbody id="noticeList">
+                            <tr v-if="this.noticeDocsSize !== 0">
+                                <td class="board-notice-title">{{ this.noticeListData.title }}</td>
+                                <td class="board-notice-author">{{ this.noticeListData.author }}</td>
+                                <td class="board-notice-date">{{ this.noticeListData.date }}</td>
+                            </tr>
+                            <tr v-else>
+                                <td colspan="3">게시글이 없습니다.</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                <div class="board-btn-wrap">
-                    <input type="text" placeholder="" />
-                    <button class="defalut-btn" type="button">검색</button>
-                    <div class="board-btn-right" v-if="superAdmin.includes(isUser.email)">
-                        <button class="defalut-btn" type="button" @click="write()">글쓰기</button>
+                    <div class="board-btn-wrap">
+                        <input type="text" placeholder="" />
+                        <button class="defalut-btn" type="button">검색</button>
+                        <div class="board-btn-right" v-if="superAdmin.includes(isUser.email)">
+                            <button class="defalut-btn" type="button" @click="writing();">글쓰기</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,6 +46,7 @@ import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
 import {superAdmin} from "@/assets/js/common.js";
 import {isUser} from "@/main.js";
+import {dbCollection, dbGetDocs, dbService} from "@/plugins/firebase";
 
 export default {
     name: "List",
@@ -56,52 +60,38 @@ export default {
         return {
             isUser,
             superAdmin,
-            noticeListResult: '',
+            noticeListData: '', // notice 문서 데이터들
+            noticeDocsSize: '', // notice 문서 게시글 갯수
         }
     },
 
     mounted() {
-        // this.$firebase.firestore().collection('notice').get().then((snapshot) => {
-        //     if (snapshot.docs.length === 0) {
-        //         let noticeListNoDatatempleat = '' +
-        //             '<tr>' +
-        //                 '<td colspan="4">게시글이 없습니다.</td>' +
-        //             '</tr>'
-        //
-        //         document.querySelector('#noticeList').innerHTML += noticeListNoDatatempleat;
-        //     }
-        //
-        //     snapshot.forEach((doc) => {
-        //         this.noticeListResult = doc.data();
-        //         console.log(this.noticeListResult);
-        //         // console.log(this.noticeListResult);
-        //         // const noticeListtempleat = `
-        //         //     <tr>
-        //         //         <td>${this.noticeListResult.num}</td>
-        //         //         <td>${this.noticeListResult.title}</td>
-        //         //         <td>${this.noticeListResult.author}</td>
-        //         //         <td>${this.noticeListResult.date}</td>
-        //         //     </tr>
-        //         // `;
-        //         let noticeListtempleat = '' +
-        //             '<tr>' +
-        //                 '<td>' + this.noticeListResult.num + '</td>' + // 게시글 번호
-        //                 '<td id="view">' + this.noticeListResult.title + '</td>' + // 제목
-        //                 '<td>' + this.noticeListResult.author + '</td>' + // 작성자
-        //                 '<td>' + this.noticeListResult.date.replace(/ /g,"").substring(0, 8) + '</td>' + // 등록일
-        //             '</tr>'
-        //
-        //         document.querySelector('#noticeList').innerHTML += noticeListtempleat;
-        //
-        //         document.querySelector('#view').addEventListener('click', () => { // 게시글 상세보기
-        //             console.log("aaa");
-        //         })
-        //     })
-        // });
+        this.getNoticeList();
     },
 
     methods: {
-        write() {
+        /**
+         * 전체 게시글 불러오기
+         */
+        async getNoticeList() {
+            this.noticeQuery = await dbGetDocs(dbCollection(dbService, 'notice'));
+            console.log(this.noticeQuery);
+            console.log(this.noticeQuery.docs.length);
+
+            this.noticeDocsSize = this.noticeQuery.docs.length;
+
+            this.noticeQuery.forEach((docs) => {
+                // console.log(doc.id);
+                console.log(docs.data());
+
+                this.noticeListData = docs.data();
+            });
+        },
+
+        /**
+         * 글쓰기 페이지 이동
+         */
+        writing() {
             this.$router.push({
                 path: '/Board/Notice/Write'
             })
