@@ -15,14 +15,19 @@
                             </tr>
                         </thead>
                         <tbody id="noticeList">
-                            <tr v-if="this.noticeDocsSize !== 0">
-                                <td class="board-notice-title">{{ this.noticeListData.title }}</td>
-                                <td class="board-notice-author">{{ this.noticeListData.author }}</td>
-                                <td class="board-notice-date">{{ this.noticeListData.date }}</td>
-                            </tr>
-                            <tr v-else>
-                                <td colspan="3">게시글이 없습니다.</td>
-                            </tr>
+<!--                            <tr v-for="(tttttff, i) in this.noticeListData" :key="i"> -->
+<!--                                <td class="board-notice-title">{{ tttttff.title }}</td>-->
+<!--                                <td class="board-notice-author">{{ tttttff.author }}</td>-->
+<!--                                <td class="board-notice-date">{{ tttttff.date }}</td>-->
+<!--                            </tr>-->
+                                <tr v-if="this.noticeDocsSize !== 0">
+                                    <td class="board-notice-title">{{ this.noticeListData.title }}</td>
+                                    <td class="board-notice-author">{{ this.noticeListData.author }}</td>
+                                    <td class="board-notice-date">{{ this.noticeListData.date }}</td>
+                                </tr>
+                                <tr v-else>
+                                    <td colspan="3">게시글이 없습니다.</td>
+                                </tr>
                         </tbody>
                     </table>
 
