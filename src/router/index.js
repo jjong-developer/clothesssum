@@ -57,22 +57,27 @@ const routes = [
 	{
 		path: '/Board/Notice/List',
 		name: 'List',
-		component: () => import(/* webpackChunkName: "Notice/List'," 공지사항 게시판 보기 */ '@/views/Board/Notice/List'),
+		component: () => import(/* webpackChunkName: "/Board/Notice/List'," 공지사항 게시판 글 목록 */ '@/views/Board/Notice/List'),
+	},
+	{
+		path: '/Board/Notice/View',
+		name: 'View',
+		component: () => import(/* webpackChunkName: "/Board/Notice/View'," 공지사항 게시판 글 보기 */ '@/views/Board/Notice/View'),
 	},
 	{
 		path: '/Board/Notice/Write',
 		name: 'Write',
-		component: () => import(/* webpackChunkName: "Notice/Write" 공지사항 게시판 글쓰기 */ '@/views/Board/Notice/Write'),
+		component: () => import(/* webpackChunkName: "/Board/Notice/Write" 공지사항 게시판 글쓰기 */ '@/views/Board/Notice/Write'),
 	},
 	{
 		path: '/Board/Qa/List',
 		name: 'List',
-		component: () => import(/* webpackChunkName: "Qa/List" 1대1문의 게시판 보기 */ '@/views/Board/Qa/List'),
+		component: () => import(/* webpackChunkName: "/Board/Qa/List" 1대1문의 게시판 보기 */ '@/views/Board/Qa/List'),
 	},
 	{
 		path: '/Policy/:pageNum',
 		name: 'Policy',
-		component: () => import(/* webpackChunkName: "Policy" 1:이용약관, 2:개인정보처리방침 */ "@/views/Board/Policy"),
+		component: () => import(/* webpackChunkName: "/Policy/:pageNum" 1:이용약관, 2:개인정보처리방침 */ "@/views/Board/Policy"),
 	},
 	{
 		path: '/Admin/Login',

@@ -14,26 +14,12 @@
                                 <th class="board-date">등록일</th>
                             </tr>
                         </thead>
-                        <tbody id="noticeList">
-<!--                            <tr v-for="(tttttff, i) in this.noticeListData" :key="i"> -->
-<!--                                <td class="board-notice-title">{{ tttttff.title }}</td>-->
-<!--                                <td class="board-notice-author">{{ tttttff.author }}</td>-->
-<!--                                <td class="board-notice-date">{{ tttttff.date }}</td>-->
-<!--                            </tr>-->
-                                <tr v-if="this.noticeDocsSize !== 0">
-                                    <td class="board-notice-title">{{ this.noticeListData.title }}</td>
-                                    <td class="board-notice-author">{{ this.noticeListData.author }}</td>
-                                    <td class="board-notice-date">{{ this.noticeListData.date }}</td>
-                                </tr>
-                                <tr v-else>
-                                    <td colspan="3">게시글이 없습니다.</td>
-                                </tr>
-                        </tbody>
+                        <tbody id="noticeList"></tbody>
                     </table>
 
                     <div class="board-btn-wrap">
-                        <input type="text" placeholder="" />
-                        <button class="defalut-btn" type="button">검색</button>
+                        <input id="search" type="text" value="" placeholder="" />
+                        <button class="defalut-btn" type="button" @click="search();">검색</button>
                         <div class="board-btn-right" v-if="superAdmin.includes(isUser.email)">
                             <button class="defalut-btn" type="button" @click="writing();">글쓰기</button>
                         </div>
@@ -65,6 +51,7 @@ export default {
         return {
             isUser,
             superAdmin,
+            noticeListTempleat: '',
             noticeListData: '', // notice 문서 데이터들
             noticeDocsSize: '', // notice 문서 게시글 갯수
         }
@@ -81,16 +68,62 @@ export default {
         async getNoticeList() {
             this.noticeQuery = await dbGetDocs(dbCollection(dbService, 'notice'));
             console.log(this.noticeQuery);
-            console.log(this.noticeQuery.docs.length);
 
             this.noticeDocsSize = this.noticeQuery.docs.length;
 
-            this.noticeQuery.forEach((docs) => {
-                // console.log(doc.id);
-                console.log(docs.data());
+            if (this.noticeDocsSize === 0) {
+                document.querySelector('#noticeList').innerHTML =
+                    '<tr>' +
+                        '<td colspan="3">게시글이 없습니다.</td>' +
+                    '</tr>';
+            }
 
+            this.noticeQuery.forEach((docs) => {
                 this.noticeListData = docs.data();
+                this.noticeListData.docUID = docs.id;
+
+                console.log(this.noticeListData);
+
+                this.noticeListTempleat = '' +
+                    '<tr>' +
+                        '<td id="'+this.noticeListData.docUID+'" class="board-notice-title" data-id="'+this.noticeListData.docUID+'">'+ this.noticeListData.title +'</td>' +
+                        '<td class="board-notice-author">'+ this.noticeListData.author +'</td>' +
+                        '<td class="board-notice-date">'+ this.noticeListData.date.slice(0, -1) +'</td>' +
+                    '</tr>';
+
+                if (this.noticeDocsSize !== 0) {
+                    document.querySelector('#noticeList').innerHTML += this.noticeListTempleat;
+                }
+
+                /**
+                 * 전체 게시글중에 해당 게시물 보기
+                 */
+                document.querySelectorAll('#'+this.noticeListData.docUID+'').forEach((el) => {
+                    el.addEventListener('click', () => {
+                        this.$router.push({
+                            path: '/Board/Notice/View'
+                        })
+                    })
+                });
+
+                // document.querySelectorAll('#listView').forEach((el) => {
+                //     el.addEventListener('click', () => {
+                //         document.querySelector('#writeDeleteBtn').dataset.id = el.getAttribute('data-id');
+                //         // this.$router.push({
+                //         //     path: '/Board/Notice/View'
+                //         // })
+                //     });
+                // });
             });
+        },
+
+        /**
+         * 게시글 검색
+         */
+        search() {
+            if (!document.querySelector('#search').value) {
+                alert('검색어를 입력해주세요');
+            }
         },
 
         /**
