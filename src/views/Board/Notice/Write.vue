@@ -67,12 +67,10 @@ export default {
             getSaveFile: '', // 가져올 파일
             fileFind: '', // 파일 찾기
             dateOptions: {
-                // year: 'numeric',
-                // month: '2-digit',
-                // month: 'numeric',
-                // day: '2-digit',
-                // day: 'numeric',
-                dateStyle: 'short'
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                // dateStyle: 'short'
             },
         }
     },
