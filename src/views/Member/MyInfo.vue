@@ -5,7 +5,9 @@
         <div class="right-wrap">
             <div class="sign-content-wrap not-page-height">
                 <div class="sign-content">
-                    <h2 class="page-title">회원 정보 수정</h2>
+                    <div class="page-top-wrap">
+                        <h2 class="page-title">회원 정보 수정</h2>
+                    </div>
                     <div>
                         <label for="userName">이름</label>
                         <input id="userName" type="text" name="userName" :value="this.userName" autocomplete="off" placeholder="" readonly="readonly" />
