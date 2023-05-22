@@ -3,7 +3,9 @@
         <div class="right-wrap">
             <div class="sign-content-wrap">
                 <div class="sign-content">
-                    <h2 class="page-title">비밀번호 재설정</h2>
+                    <div class="page-top-wrap">
+                        <h2 class="page-title">비밀번호 재설정</h2>
+                    </div>
                     <div>
                         <label>이메일</label>
                         <input id="userEmail" type="email" name="userEmail" value="" autocomplete="off" placeholder="" />

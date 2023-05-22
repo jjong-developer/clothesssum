@@ -54,7 +54,7 @@ export default {
                     this.$router.push({
                         path: '/Shop/Acc/AllProduct',
                         name: 'Query',
-                        query: { productListFilter: this.category },
+                        query: {productListFilter: this.category},
                         props: true,
                     }).catch(()=>{})
                     this.$router.go();
@@ -64,7 +64,7 @@ export default {
                     this.$router.push({
                         path: '/Shop/Acc/AllProduct',
                         name: 'Query',
-                        query: { productListFilter: this.category },
+                        query: {productListFilter: this.category},
                         props: true,
                     }).catch(()=>{})
                     this.$router.go();
@@ -74,7 +74,7 @@ export default {
                     this.$router.push({
                         path: '/Shop/Acc/AllProduct',
                         name: 'Query',
-                        query: { productListFilter: this.category },
+                        query: {productListFilter: this.category},
                         props: true,
                     }).catch(()=>{})
                     this.$router.go();
@@ -84,7 +84,7 @@ export default {
                     this.$router.push({
                         path: '/Shop/Acc/AllProduct',
                         name: 'Query',
-                        query: { productListFilter: this.category },
+                        query: {productListFilter: this.category},
                         props: true,
                     }).catch(()=>{})
                     this.$router.go();
@@ -94,7 +94,7 @@ export default {
                     this.$router.push({
                         path: '/Shop/Acc/AllProduct',
                         name: 'Query',
-                        query: { productListFilter: this.category },
+                        query: {productListFilter: this.category},
                         props: true,
                     }).catch(()=>{})
                     this.$router.go();
@@ -104,7 +104,7 @@ export default {
                     this.$router.push({
                         path: '/Shop/Acc/AllProduct',
                         name: 'Query',
-                        query: { productListFilter: this.category },
+                        query: {productListFilter: this.category},
                         props: true,
                     }).catch(()=>{})
                     this.$router.go();

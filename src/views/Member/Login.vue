@@ -5,7 +5,9 @@
         <div class="right-wrap">
             <div class="sign-content-wrap">
                 <div class="sign-content">
-                    <h2 class="page-title">로그인</h2>
+                    <div class="page-top-wrap">
+                        <h2 class="page-title">로그인</h2>
+                    </div>
                     <div>
                         <label>이메일</label>
                         <input id="userEmail" type="text" name="userEmail" value="" autocomplete="off" placeholder="" />

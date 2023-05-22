@@ -3,7 +3,9 @@
         <Header></Header>
 
         <div class="right-wrap">
-            <h2 class="page-title">공지사항</h2>
+            <div class="page-top-wrap">
+                <h2 class="page-title">공지사항</h2>
+            </div>
             <div class="board-wrap">
                 <div class="board-list-wrap">
                     <table class="board-table">
@@ -54,6 +56,7 @@ export default {
             noticeListTempleat: '',
             noticeListData: '', // notice 문서 데이터들
             noticeDocsSize: '', // notice 문서 게시글 갯수
+            searchData: '',
         }
     },
 
@@ -98,22 +101,17 @@ export default {
                 /**
                  * 전체 게시글중에 해당 게시물 보기
                  */
-                document.querySelectorAll('#'+this.noticeListData.docUID+'').forEach((el) => {
-                    el.addEventListener('click', () => {
+                document.querySelectorAll('.board-notice-title').forEach((el) => {
+                    el.addEventListener('click', (e) => {
                         this.$router.push({
-                            path: '/Board/Notice/View'
-                        })
+                            path: '/Board/Notice/View',
+                            name: 'Query',
+                            query: {docUID: e.target.dataset.id},
+                            props: true,
+                        }).catch(()=>{})
+                        this.$router.go();
                     })
-                });
-
-                // document.querySelectorAll('#listView').forEach((el) => {
-                //     el.addEventListener('click', () => {
-                //         document.querySelector('#writeDeleteBtn').dataset.id = el.getAttribute('data-id');
-                //         // this.$router.push({
-                //         //     path: '/Board/Notice/View'
-                //         // })
-                //     });
-                // });
+                })
             });
         },
 
@@ -121,8 +119,11 @@ export default {
          * 게시글 검색
          */
         search() {
-            if (!document.querySelector('#search').value) {
+            this.searchData = document.querySelector('#search');
+
+            if (!this.searchData.value) {
                 alert('검색어를 입력해주세요');
+                this.searchData.focus();
             }
         },
 

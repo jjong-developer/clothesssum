@@ -5,7 +5,9 @@
         <div class="right-wrap">
             <div class="sign-content-wrap not-page-height">
                 <div class="sign-content">
-                    <h2 class="page-title">회원 가입</h2>
+                    <div class="page-top-wrap">
+                        <h2 class="page-title">회원 가입</h2>
+                    </div>
                     <div>
                         <label for="userName">이름</label>
                         <input id="userName" type="text" name="userName" value="" autocomplete="off" placeholder="" />
