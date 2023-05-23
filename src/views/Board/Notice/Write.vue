@@ -21,7 +21,7 @@
                     </div>
                     <textarea id="content" value="" placeholder="내용을 입력해주세요."></textarea>
                     <label>첨부파일</label>
-                    <input class="fileUpload" type="file" multiple />
+                    <input class="file-find" type="file" multiple />
                     <div class="board-btn-wrap">
                         <button class="defalut-w-btn" type="text" @click="cancel();">취소</button>
                         <button class="defalut-btn" type="text" @click="register();">등록</button>
@@ -37,7 +37,7 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import {goBack, siteReload} from "@/assets/js/common.js";
+import {goBack, siteReload, fileChange} from "@/assets/js/common.js";
 import {dbAddDoc, dbCollection, dbGetDocs, dbService} from "@/plugins/firebase.js";
 import {isUser} from "@/main";
 
@@ -79,6 +79,7 @@ export default {
 
     mounted() {
         this.getUsers();
+        fileChange(); // 임시
     },
 
     methods: {
@@ -116,11 +117,13 @@ export default {
             this.title = document.querySelector('input[name=title]').value;
             this.contents = document.querySelector('#content').value;
 
-            // 이미지, 첨부파일
-            // // this.fileFind = document.getElementById('fileUpload').files[0]; // 단일
-            // this.fileFind = [...document.getElementById('fileUpload').files]; // 다중
-            // this.setSaveFile = this.$firebase.storage().ref().child('notice/file/' + this.fileFind.name);
+            // 첨부파일
+            // this.fileFind = document.querySelector('.file-find').files[0]; // 단일
+            // this.fileFind = [...document.querySelector('.file-find').files]; // 다중
+            // this.setSaveFile = ref(dbStorage, 'notice/file/' + this.fileFind.name);
+            // // this.setSaveFile = this.$firebase.storage().ref().child('notice/file/' + this.fileFind.name);
             // this.getSaveFile = this.setSaveFile.put(this.fileFind);
+            // fileChange();
 
             dbAddDoc(dbCollection(dbService, 'notice'), {
                 'author': this.author, // 작성자

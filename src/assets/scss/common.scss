@@ -248,6 +248,8 @@ table {
 	margin-top: 20px;
 
 	.board-btn-right {
+		@include dp-flex-defalut;
+		gap: 5px;
 		float: right;
 	}
 }
@@ -284,6 +286,21 @@ table {
 	&:hover {
 		background: #000;
 		color: #fff;
+		transition: 0.3s;
+	}
+}
+
+.defalut-r-btn {
+	width: 100px;
+	height: 40px;
+	padding: 0 15px 0 15px;
+	background: #cb0000;
+	color: #fff;
+	border: 1px solid #cb0000;
+
+	&:hover {
+		background: #fff;
+		color: #000;
 		transition: 0.3s;
 	}
 }
