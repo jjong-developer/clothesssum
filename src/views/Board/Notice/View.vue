@@ -18,6 +18,7 @@
 
                     <div class="board-btn-wrap">
                         <div class="board-btn-right">
+                            <button class="defalut-r-btn" type="button" @click="listDelete();">삭제</button>
                             <button class="defalut-btn" type="button" @click="list();">목록</button>
                         </div>
                     </div>
@@ -32,9 +33,9 @@
 <script>
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import {superAdmin} from "@/assets/js/common.js";
+import {siteReload, superAdmin} from "@/assets/js/common.js";
 import {isUser} from "@/main.js";
-import {dbCollection, dbGetDocs, dbService} from "@/plugins/firebase";
+import {dbCollection, dbGetDocs, dbService, DOC, dbDeleteDoc} from "@/plugins/firebase";
 
 export default {
     name: "View",
@@ -99,13 +100,26 @@ export default {
         },
 
         /**
-         * 글쓰기 목록 페이지 이동
+         * 게시글 목록 페이지 이동
          */
         list() {
             this.$router.push({
                 path: '/Board/Notice/List'
             })
-        }
+        },
+
+        /**
+         * 해당 게시글 삭제
+         */
+        async listDelete() {
+            if (confirm('삭제 후 복구가 불가능합니다.\n해당 게시글을 정말 삭제 하시겠습니까?') === true) {
+                if (this.$route.query.docUID === this.noticeListData.docUID) {
+                    await dbDeleteDoc(DOC(dbService, 'notice', this.noticeListData.docUID));
+                    alert('해당 게시글이 삭제 되었습니다.');
+                    siteReload('/Board/Notice/List');
+                }
+            }
+        },
     },
 };
 </script>

@@ -261,6 +261,7 @@
             .sns-login--wrap {
                 @include dp-flex-defalut;
                 gap: 10px;
+                margin-top: 10px;
             }
         }
     }

@@ -1,5 +1,8 @@
+import {dbStorage, dbStorageRef, dbGetDownloadURL} from "@/plugins/firebase.js";
+
 export let superAdmin = ['jongwook2.kim@gmail.com']; // 관리자 권한 이메일 설정
 export let isSuperAdmin = false;
+export let fileUpload, fileUrl;
 
 /**
  * 채널톡 버튼 플러그인 설치
@@ -133,4 +136,32 @@ export function phoneNumberCheck(str) {
 
 export function regexPhoneNumber(target) {
     target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+}
+
+/**
+ * 첨부파일 변경
+ */
+export function fileChange() {
+    let fileNameTarget = document.querySelector('.file-find');
+
+    fileNameTarget.addEventListener('change', (e) => {
+        if (window.FileReader) {
+            let fileTarget = e.target.files[0]; // 파일 추출
+            let fileName = e.target.files[0].name; // 파일명 추출
+
+            fileNameTarget.value = fileName; // 변경할때마다 파일명을 input에 삽입
+            // ref(dbStorage, 'notice/file/' + this.fileFind.name)
+            // fileUpload = dbStorageRef.child('images/portfolio/' + fileName).put(fileTarget);
+            fileUpload = dbStorageRef.child(dbStorage, 'notice/file/' + fileName).put(fileTarget);
+
+            fileUpload.on('state_changed', null, (error) => { // 이미지 업로드 여부
+                alert('업로드중 실패하였습니다, 잠시 후 다시 시도해주세요.\n', error.message);
+            }, () => {
+                // dbGetDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                dbGetDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    fileUrl = downloadURL;
+                });
+            });
+        }
+    });
 }
