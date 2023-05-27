@@ -70,6 +70,11 @@ const routes = [
 		component: () => import(/* webpackChunkName: "/Board/Notice/Write" 공지사항 게시판 글쓰기 */ '@/views/Board/Notice/Write'),
 	},
 	{
+		path: '/Board/Notice/WriteUpdate',
+		name: 'WriteUpdate',
+		component: () => import(/* webpackChunkName: "/Board/Notice/WriteUpdate" 공지사항 게시판 글쓰기 수정 */ '@/views/Board/Notice/WriteUpdate'),
+	},
+	{
 		path: '/Board/Qa/List',
 		name: 'List',
 		component: () => import(/* webpackChunkName: "/Board/Qa/List" 1대1문의 게시판 보기 */ '@/views/Board/Qa/List'),

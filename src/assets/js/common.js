@@ -139,7 +139,7 @@ export function regexPhoneNumber(target) {
 }
 
 /**
- * 첨부파일 변경
+ * 첨부파일 선택
  */
 export function fileChange() {
     let fileNameTarget = document.querySelector('.file-find');
@@ -150,18 +150,19 @@ export function fileChange() {
             let fileName = e.target.files[0].name; // 파일명 추출
 
             fileNameTarget.value = fileName; // 변경할때마다 파일명을 input에 삽입
-            // ref(dbStorage, 'notice/file/' + this.fileFind.name)
-            // fileUpload = dbStorageRef.child('images/portfolio/' + fileName).put(fileTarget);
-            fileUpload = dbStorageRef.child(dbStorage, 'notice/file/' + fileName).put(fileTarget);
-
-            fileUpload.on('state_changed', null, (error) => { // 이미지 업로드 여부
-                alert('업로드중 실패하였습니다, 잠시 후 다시 시도해주세요.\n', error.message);
-            }, () => {
-                // dbGetDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                dbGetDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    fileUrl = downloadURL;
-                });
-            });
+            console.log(fileNameTarget.value);
+            // // ref(dbStorage, 'notice/file/' + this.fileFind.name)
+            // // fileUpload = dbStorageRef.child('images/portfolio/' + fileName).put(fileTarget);
+            // fileUpload = dbStorageRef.child(dbStorage, 'notice/file/' + fileName).put(fileTarget);
+            //
+            // fileUpload.on('state_changed', null, (error) => {
+            //     alert('업로드중 실패하였습니다, 잠시 후 다시 시도해주세요.\n', error.message);
+            // }, () => {
+            //     // dbGetDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            //     dbGetDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            //         fileUrl = downloadURL;
+            //     });
+            // });
         }
     });
 }

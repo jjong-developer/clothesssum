@@ -4,7 +4,7 @@
 
         <div class="right-wrap">
             <div class="page-top-wrap">
-                <h2 class="page-title">공지사항 글쓰기</h2>
+                <h2 class="page-title">공지사항 글쓰기 수정</h2>
             </div>
             <div class="board-wrap">
                 <div class="board-write-wrap">
@@ -24,7 +24,7 @@
                     <input class="file-find" type="file" />
                     <div class="board-btn-wrap">
                         <button class="defalut-w-btn" type="text" @click="cancel();">취소</button>
-                        <button class="defalut-btn" type="text" @click="register();">등록</button>
+                        <button class="defalut-btn" type="text" @click="listUpdate();">등록</button>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@ import {dbAddDoc, dbCollection, dbGetDocs, dbService} from "@/plugins/firebase.j
 import {isUser} from "@/main";
 
 export default {
-    name: "Write",
+    name: "WriteUpdate",
 
     components: {
         Header,
@@ -110,9 +110,9 @@ export default {
         },
 
         /**
-         * 게시글 등록
+         * 게시글 수정
          */
-        register() {
+        listUpdate() {
             this.author = document.querySelector('input[name=author]').value;
             this.title = document.querySelector('input[name=title]').value;
             this.contents = document.querySelector('#content').value;

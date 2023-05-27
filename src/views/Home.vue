@@ -1,5 +1,7 @@
 <template>
     <div> <!-- 항상 컴포넌트나 사용 시 최상위 template 태그 하위에 임의(div) 태그가 감싸져있어야 에러가 발생하지 않음 -->
+<!--        <Popup isPopup></Popup>-->
+
         <Header></Header>
 
         <div class="right-wrap">
@@ -10,7 +12,7 @@
                         <div class="main-product-ul-not">
                             <div class="main-product-list-not main-product-list-effect">
                                 <a href="#!">
-                                    <img :src="require(`@/assets/img/main_product/${bestProduct.file_name}`)" style="width: 100%;" alt="" />
+                                    <img :src="require(`@/assets/img/main_product/${bestProduct.file_name}`)" alt="" />
                                     <p class="best-badge">BEST</p>
                                     <p class="product-name">{{ bestProduct.name }}</p>
                                     <p class="product-price">{{ bestProduct.price | commaChk }}원</p>
@@ -45,6 +47,7 @@
 
 <script>
 import {mapGetters} from "vuex";
+import Popup from "@/components/Common/Popup";
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
 import {getProductNoParam} from "@/assets/js/api";
@@ -57,15 +60,17 @@ export default {
     name: 'Home',
 
     components: {
+        Popup,
         Header,
         Footer,
         Swiper,
         SwiperSlide,
-        InfiniteLoading
+        InfiniteLoading,
     },
 
     data() {
         return {
+            isPopup: false,
             bestProducts: '',
             products: '',
             productsMore: '',
@@ -91,7 +96,12 @@ export default {
     },
 
     mounted() {
-        getProductNoParam('/dummy_data/main/productInfo.json').then(res => { /* 메인 상품 (기본 노출) */
+        this.isPopup = true;
+
+        /**
+         * 메인 상품 (기본 노출)
+         */
+        getProductNoParam('/dummy_data/main/productInfo.json').then(res => {
             const {response} = res.request;
             const json = JSON.parse(response);
             const result = json;
@@ -106,7 +116,22 @@ export default {
     },
 
     methods: {
-        mainProductListMore($state) { /* 메인 상품 (스크롤 시 노출) */
+        /**
+         * 팝업창 닫기
+         */
+        // popupClose(state) {
+        //     console.log(state);
+        //     this.isPopup = state;
+        // },
+
+        popupClose() {
+            this.isPopup = false;
+        },
+
+        /**
+         * 메인 상품 (스크롤 시 노출)
+         */
+        mainProductListMore($state) {
             getProductNoParam('/dummy_data/main/productInfo.json').then(res => {
                 const { response } = res.request;
                 const json = JSON.parse(response);

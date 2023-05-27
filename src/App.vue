@@ -5,10 +5,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
     name: 'App',
+
     computed: {
         ...mapGetters({
             Config: 'getConfig',
@@ -16,6 +17,7 @@ export default {
             sessionStorage: 'getSessionStorage'
         })
     },
+
     data() {
         return {
 
