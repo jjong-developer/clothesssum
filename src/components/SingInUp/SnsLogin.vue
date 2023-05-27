@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import { signInWithPopup } from "firebase/auth";
-import { dbAuth, facebookProvider, googleProvider } from "@/plugins/firebase";
-import { siteReload } from "@/assets/js/common";
+import {signInWithPopup} from "firebase/auth";
+import {dbAuth, facebookProvider, googleProvider} from "@/plugins/firebase";
+import {siteReload} from "@/assets/js/common";
 
 export default {
     name: "SnsLogin",

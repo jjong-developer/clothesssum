@@ -74,14 +74,14 @@ $fs-xss-small: 12px;
 }
 
 @mixin product-menu-line {
-	margin: 0 0 30px 0;
-	padding: 0 0 30px 0;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+	margin: 0 0 20px 0;
+	padding: 0 0 20px 0;
+	border-bottom: 1px solid #000000;
 }
 
-@mixin right-wrap {
+@mixin right-content-wrap {
 	position: relative;
-	width: 1450px;
+	width: 1350px;
 	height: auto;
 	float: right;
 	padding: 60px 40px 60px 40px;
@@ -118,6 +118,7 @@ a { color: $c-000; text-decoration: none; }
 a:hover, a:focus, a:active { color: $c-000; text-decoration: none; }
 .wd-100 { width: 100% !important; }
 button {
+	font-family: 'Poppins', sans-serif;
 	outline: none;
 	border: none;
 	font-size: 14px;
@@ -201,10 +202,41 @@ table {
 }
 
 /****************************************
+	공통 팝업창
+****************************************/
+.popup-wrap {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99999;
+	background: #ffffff;
+	border: 2px solid #919196;
+
+	.popup-contents {
+		width: 600px;
+		height: 600px;
+	}
+
+	.board-btn-wrap {
+		margin-top: 0px;
+
+		.defalut-w-btn {
+			width: 50%;
+			height: 50px;
+			border-top: 1px solid #cdd2d7;
+			border-left: 1px solid #cdd2d7;
+			border-right: none;
+			border-bottom: none;
+			margin-left: -1px;
+		}
+	}
+}
+
+/****************************************
 	우측 모든 컨텐츠들 감싸는 부분
 ****************************************/
 .right-wrap {
-	@include right-wrap;
+	@include right-content-wrap;
 }
 
 @keyframes listIn {

@@ -16,9 +16,10 @@
                         <p>{{ this.contents }}</p>
                     </div>
 
-                    <div class="board-btn-wrap">
+                    <div class="board-btn-wrap" v-if="superAdmin.includes(isUser.email)">
                         <div class="board-btn-right">
                             <button class="defalut-r-btn" type="button" @click="listDelete();">삭제</button>
+                            <button class="defalut-btn" type="button" @click="modify();">수정</button>
                             <button class="defalut-btn" type="button" @click="list();">목록</button>
                         </div>
                     </div>
@@ -52,6 +53,7 @@ export default {
             uri: '',
             uriAry: '',
             andAry: '',
+            urlParamName: '',
             noticeListTempleat: '',
             noticeListData: '', // notice 문서 데이터들
             noticeDocsSize: '', // notice 문서 게시글 갯수
@@ -106,6 +108,21 @@ export default {
             this.$router.push({
                 path: '/Board/Notice/List'
             })
+        },
+
+        /**
+         * 해당 게시글 수정
+         */
+        modify() {
+            this.urlParamName = new URL(location.href).searchParams.get('docUID');
+
+            this.$router.push({
+                path: '/Board/Notice/WriteUpdate',
+                name: 'Query',
+                query: {docUID: this.urlParamName},
+                props: true,
+            }).catch(()=>{})
+            this.$router.go();
         },
 
         /**
