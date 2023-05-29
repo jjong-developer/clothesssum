@@ -6,14 +6,16 @@
 .header-wrap {
     position: fixed;
     z-index: 3;
-    width: 300px;
+    width: 320px;
     height: 100%;
     float: left;
 
+
     .nav-wrap {
-        padding: 0px 25px 0 25px;
+        padding: 40px 35px 0 35px;
 
         .logo {
+            font-weight: bold;
 
             img {
                 width: 120px;
@@ -433,10 +435,10 @@
         padding-left: 150px;
 
         .sub-product-ul {
-            display: $dp-flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 3em;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+            justify-content: center;
+            gap: 2em;
 
             .sub-product-list {
                 position: relative;
