@@ -52,16 +52,8 @@ export default {
     data() {
         return {
             isUser,
-            docID: '',
             docData: '',
             userName: '',
-            userEmail: '',
-            userPhoneNumber: '',
-            userPostCode: '',
-            userRoadAddress: '',
-            userJibunAddress: '',
-            userDetailAddress: '',
-            userUid: '',
             author: '', // 작성자
             title: '', // 제목
             contents: '', // 내용
@@ -93,18 +85,10 @@ export default {
                 // console.log(doc.id);
                 console.log(docs.data());
 
-                this.docID = docs.id
                 this.docData = docs.data()
-                this.userUid = this.docData.uid;
 
-                if (isUser.uid === this.userUid) {
+                if (isUser.uid === this.docData.uid) {
                     this.userName = this.docData.name;
-                    this.userEmail = this.docData.email;
-                    this.userPhoneNumber = this.docData.phoneNumber;
-                    this.userPostCode = this.docData.postCode;
-                    this.userRoadAddress = this.docData.roadAddress;
-                    this.userJibunAddress = this.docData.jibunAddress;
-                    this.userDetailAddress = this.docData.detailAddress;
                 }
             });
         },

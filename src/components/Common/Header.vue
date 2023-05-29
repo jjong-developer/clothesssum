@@ -73,10 +73,10 @@
             </div>
             <div class="center-icon-wrap">
                 <a href="tel:010-6595-2468">
-                    <img :src="require(`@/assets/img/common/call_center.png`)" alt="" />
+                    <img :src="require(`@/assets/img/common/call_center_icon.png`)" alt="고객센터" />
                 </a>
                 <a href="mailto:jongwook2.kim@gmail.com">
-                    <img :src="require(`@/assets/img/common/mail.png`)" alt="" />
+                    <img :src="require(`@/assets/img/common/mail_icon.png`)" alt="이메일" />
                 </a>
             </div>
             <div class="search-wrap">

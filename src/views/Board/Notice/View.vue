@@ -19,7 +19,7 @@
                     <div class="board-btn-wrap" v-if="superAdmin.includes(isUser.email)">
                         <div class="board-btn-right">
                             <button class="defalut-r-btn" type="button" @click="listDelete();">삭제</button>
-                            <button class="defalut-btn" type="button" @click="modify();">수정</button>
+                            <button class="defalut-btn" type="button" @click="listModify();">수정</button>
                             <button class="defalut-btn" type="button" @click="list();">목록</button>
                         </div>
                     </div>
@@ -59,8 +59,8 @@ export default {
             noticeDocsSize: '', // notice 문서 게시글 갯수
             title: '', // 제목
             author: '', // 작성자
-            date: '', // 등록일
             contents: '', // 내용
+            date: '', // 등록일
         }
     },
 
@@ -85,8 +85,8 @@ export default {
                 if (this.$route.query.docUID === this.noticeListData.docUID) {
                     this.title = this.noticeListData.title;
                     this.author = this.noticeListData.author;
-                    this.date = this.noticeListData.date.slice(0, -1);
                     this.contents = this.noticeListData.contents;
+                    this.date = this.noticeListData.date.slice(0, -1);
                 }
             });
 
@@ -113,13 +113,18 @@ export default {
         /**
          * 해당 게시글 수정
          */
-        modify() {
+        listModify() {
             this.urlParamName = new URL(location.href).searchParams.get('docUID');
 
             this.$router.push({
                 path: '/Board/Notice/WriteUpdate',
                 name: 'Query',
-                query: {docUID: this.urlParamName},
+                query: {
+                    docUID: this.urlParamName,
+                    title: encodeURI(this.title),
+                    author: this.author,
+                    contents: encodeURI(this.contents),
+                },
                 props: true,
             }).catch(()=>{})
             this.$router.go();
