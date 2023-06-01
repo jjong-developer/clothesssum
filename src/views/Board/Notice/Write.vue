@@ -12,13 +12,13 @@
                     <input id="author" type="text" name="author" :value="this.userName" placeholder="작성자를 입력해주세요." />
                     <label>제목</label>
                     <input id="title" type="text" name="title" value="" placeholder="제목을 입력해주세요." />
-                    <div class="write-tool">
+<!--                    <div class="write-tool">-->
                         <label>내용</label>
-                        <button type="button">
-                            <img :src="require('@/assets/img/common/picture.png')" title="이미지 첨부" alt="이미지 첨부" />
-                        </button>
-                        <span>(이미지도 첨부하실 수 있습니다.)</span>
-                    </div>
+<!--                        <button type="button">-->
+<!--                            <img :src="require('@/assets/img/common/picture.png')" title="이미지 첨부" alt="이미지 첨부" />-->
+<!--                        </button>-->
+<!--                        <span>(이미지도 첨부하실 수 있습니다.)</span>-->
+<!--                    </div>-->
                     <textarea id="content" value="" placeholder="내용을 입력해주세요."></textarea>
                     <label>첨부파일</label>
                     <input class="file-find" type="file" />

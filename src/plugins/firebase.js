@@ -21,12 +21,14 @@ import {isSuperAdmin, superAdmin} from "@/assets/js/common";
  * version 9
  */
 import {initializeApp} from "firebase/app";
+import {getDatabase} from 'firebase/database';
 import {getAuth, GoogleAuthProvider, FacebookAuthProvider} from "firebase/auth";
 import {getFirestore, addDoc, getDocs, updateDoc, collection, doc, deleteDoc} from "firebase/firestore";
 import {getStorage, ref, getDownloadURL} from "firebase/storage";
 import firebaseConfig from "../../firebase.config";
 
 export const app = initializeApp(firebaseConfig);
+export const dbGetDatabase = getDatabase();
 export const dbAuth = getAuth();
 export const dbService = getFirestore(app);
 export const dbAddDoc = addDoc;
