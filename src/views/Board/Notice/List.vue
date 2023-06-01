@@ -16,13 +16,15 @@
                                 <th class="board-date">등록일</th>
                             </tr>
                         </thead>
-                        <tbody id="noticeList"></tbody>
+<!--                        <div id="coin_list">-->
+                            <tbody id="noticeList"></tbody>
+<!--                        </div>-->
                     </table>
 
                     <div class="board-btn-wrap">
                         <input id="search" type="text" value="" placeholder="" />
-                        <button class="defalut-btn" type="button" @click="search();">검색</button>
-                        <div class="board-btn-right" v-if="superAdmin.includes(isUser.email)">
+                        <button class="defalut-btn" type="button" @click="searchFilter();">검색</button>
+                        <div class="board-btn-right" v-if="isUser !== null && superAdmin.includes(isUser.email)">
                             <button class="defalut-btn" type="button" @click="writing();">글쓰기</button>
                         </div>
                     </div>
@@ -39,7 +41,8 @@ import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
 import {superAdmin} from "@/assets/js/common.js";
 import {isUser} from "@/main.js";
-import {dbCollection, dbGetDocs, dbService} from "@/plugins/firebase";
+import {dbCollection, dbGetDocs, dbService} from "@/plugins/firebase.js";
+import {query, orderBy} from "firebase/firestore";
 
 export default {
     name: "List",
@@ -69,8 +72,9 @@ export default {
          * 전체 게시글 불러오기
          */
         async getNoticeList() {
-            this.noticeQuery = await dbGetDocs(dbCollection(dbService, 'notice'));
-            console.log(this.noticeQuery);
+            this.noticeQuery = await dbGetDocs(query(dbCollection(dbService, 'notice'), orderBy('date', 'desc')));
+            // const testtest = this.noticeQuery.docs.map((el) => el.data());
+            // console.log(testtest);
 
             this.noticeDocsSize = this.noticeQuery.docs.length;
 
@@ -89,7 +93,7 @@ export default {
 
                 this.noticeListTempleat = '' +
                     '<tr>' +
-                        '<td id="'+this.noticeListData.docUID+'" class="board-notice-title" data-id="'+this.noticeListData.docUID+'">'+ this.noticeListData.title +'</td>' +
+                        '<td class="board-notice-title" data-id="'+this.noticeListData.docUID+'">'+ this.noticeListData.title +'</td>' +
                         '<td class="board-notice-author">'+ this.noticeListData.author +'</td>' +
                         '<td class="board-notice-date">'+ this.noticeListData.date.slice(0, -1) +'</td>' +
                     '</tr>';
@@ -118,13 +122,47 @@ export default {
         /**
          * 게시글 검색
          */
-        search() {
-            this.searchData = document.querySelector('#search');
+        searchFilter() {
+            // this.searchData = document.querySelector('#search');
+            //
+            // if (!this.searchData.value) {
+            //     alert('검색어를 입력해주세요');
+            //     this.searchData.focus();
+            // }
 
-            if (!this.searchData.value) {
-                alert('검색어를 입력해주세요');
-                this.searchData.focus();
+            let search, list, i, res = "";
+
+            search = document.querySelector('#search').value.toUpperCase();  // input tag의 value 값 취득
+
+            if (search != '') {
+                // this.noticeListTempleat = document.querySelector('#noticeList').innerHTML.split('<br>');  // noticeList를 배열로 변환
+                // this.noticeListTempleat[this.noticeListTempleat.length - 1] = this.noticeListTempleat[this.noticeListTempleat.length - 1].split('</tbody>')[0];
+
+                // console.log(this.noticeListTempleat.length);
+                // console.log(search);
+
+                // for(i=1; i<this.noticeListTempleat.length; i++){
+                //     console.log(this.noticeListTempleat.length);
+                //
+                //     if(this.noticeListTempleat[i].toUpperCase().includes(search)){
+                //         res += this.noticeListTempleat[i].replaceAll('&nbsp;', ' ') + '\n';  // 검색 결과를 변수에 저장
+                //
+                //         console.log(res);
+                //     }
+                // }
+
+                if(this.noticeListTempleat.toUpperCase().includes(search)){
+                    res += this.noticeListTempleat.replaceAll('&nbsp;', ' ') + '\n';  // 검색 결과를 변수에 저장
+
+                    console.log(res);
+                }
+
+                if (res == '') {
+                    res = '해당 검색 게시글이 없습니다.';
+                }
             }
+            // document.getElementById("filter_result").innerText = res;  // 검색 결과 출력
+            document.querySelector('#noticeList').innerText = res;  // 검색 결과 출력
         },
 
         /**

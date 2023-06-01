@@ -16,10 +16,13 @@
                         <p>{{ this.contents }}</p>
                     </div>
 
-                    <div class="board-btn-wrap" v-if="superAdmin.includes(isUser.email)">
-                        <div class="board-btn-right">
+                    <div class="board-btn-wrap">
+                        <div class="board-btn-right" v-if="isUser !== null && superAdmin.includes(isUser.email)">
                             <button class="defalut-r-btn" type="button" @click="listDelete();">삭제</button>
                             <button class="defalut-btn" type="button" @click="listModify();">수정</button>
+                            <button class="defalut-btn" type="button" @click="list();">목록</button>
+                        </div>
+                        <div class="board-btn-right" v-else>
                             <button class="defalut-btn" type="button" @click="list();">목록</button>
                         </div>
                     </div>

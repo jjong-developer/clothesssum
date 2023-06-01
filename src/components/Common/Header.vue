@@ -66,7 +66,7 @@
                             <router-link to="/Board/Notice/List">notice</router-link>
                         </li>
                         <li>
-                            <router-link to="/Board/Qa/List">q&a</router-link>
+                            <router-link to="/">q&a</router-link> <!-- /Board/Qa/List -->
                         </li>
                     </ul>
                 </div>
