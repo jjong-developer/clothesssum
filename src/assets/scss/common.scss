@@ -204,30 +204,41 @@ table {
 /****************************************
 	공통 팝업창
 ****************************************/
-.popup-wrap {
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 99999;
-	background: #ffffff;
-	border: 2px solid #919196;
+.popup-view {
+	display: block;
+	visibility: visible;
+	opacity: 1;
 
-	.popup-contents {
-		width: 600px;
-		height: 600px;
+	&.active {
+		display: none;
+		visibility: hidden;
+		opacity: 0;
 	}
 
-	.board-btn-wrap {
-		margin-top: 0px;
+	.popup-wrap {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 99999;
+		background: #ffffff;
+		border: 2px solid #919196;
 
-		.defalut-w-btn {
-			width: 50%;
-			height: 50px;
-			border-top: 1px solid #cdd2d7;
-			border-left: 1px solid #cdd2d7;
-			border-right: none;
-			border-bottom: none;
-			margin-left: -1px;
+		.popup-contents {
+			width: 600px;
+			height: 600px;
+		}
+
+		.board-btn-wrap {
+			margin-top: 0px;
+
+			.defalut-w-btn {
+				width: 50%;
+				height: 50px;
+				border-top: 1px solid #cdd2d7;
+				border-left: 1px solid #cdd2d7;
+				border-right: none;
+				border-bottom: none;
+			}
 		}
 	}
 }
