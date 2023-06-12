@@ -1,6 +1,8 @@
 <template>
     <div> <!-- 항상 컴포넌트나 사용 시 최상위 template 태그 하위에 임의(div) 태그가 감싸져있어야 에러가 발생하지 않음 -->
-<!--        <Popup isPopup></Popup>-->
+        <div class="popup-view" :class="{active : isPopup}">
+            <Popup @close-popup="closePopup();" @today-close-popup="todayClosePopup();"></Popup>
+        </div>
 
         <Header></Header>
 
@@ -14,9 +16,9 @@
                                 <a href="#!">
                                     <img :src="require(`@/assets/img/main_product/${bestProduct.file_name}`)" alt="" />
                                     <p class="best-badge">BEST</p>
-                                    <p class="product-name">{{ bestProduct.name }}</p>
-                                    <p class="product-price">{{ bestProduct.price | commaChk }}원</p>
                                 </a>
+                                <p class="product-name">{{ bestProduct.name }}</p>
+                                <p class="product-price">{{ bestProduct.price | commaChk }}원</p>
                             </div>
                         </div>
                     </swiper-slide>
@@ -30,9 +32,9 @@
                     <li class="main-product-list main-product-list-effect" v-for="(product, i) in products" :key="i">
                         <a href="#!">
                             <img :src="require(`@/assets/img/main_product/${product.file_name}`)" alt="" />
-                            <p class="product-name">{{ product.name }}</p>
-                            <p class="product-price">{{ product.price | commaChk }}원</p>
                         </a>
+                        <p class="product-name">{{ product.name }}</p>
+                        <p class="product-price">{{ product.price | commaChk }}원</p>
                     </li>
                 </ul>
             </div>
@@ -96,8 +98,7 @@ export default {
     },
 
     mounted() {
-        this.isPopup = true;
-
+        // this.getCookieMobile();
         /**
          * 메인 상품 (기본 노출)
          */
@@ -119,13 +120,36 @@ export default {
         /**
          * 팝업창 닫기
          */
-        // popupClose(state) {
-        //     console.log(state);
-        //     this.isPopup = state;
-        // },
+        closePopup() {
+            this.isPopup = true;
+        },
 
-        popupClose() {
-            this.isPopup = false;
+
+
+        setCookieMobile ( name, value, expiredays ) {
+            console.log("aaa");
+            var todayDate = new Date();
+            todayDate.setDate( todayDate.getDate() + expiredays );
+            document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+        },
+        getCookieMobile() {
+            var cookiedata = document.cookie;
+            if ( cookiedata.indexOf("todayCookier=done") < 0 ){
+                console.log("aaaa");
+                this.isPopup = false;
+            }
+            else {
+                this.isPopup = true;
+            }
+        },
+        /**
+         * 팝업창 오늘 하루 열지 않기
+         */
+        todayClosePopup() {
+            this.setCookieMobile( "todayCookie", "done" , 1);
+            this.isPopup = true;
+
+            this.getCookieMobile();
         },
 
         /**

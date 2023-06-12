@@ -13,9 +13,9 @@
                             <li class="sub-product-list sub-product-list-effect" v-for="(product, i) in products" :key="i">
                                 <a href="#!">
                                     <img :src="require(`@/assets/img/sub_product/acc/${product.file_name}`)" alt="" />
-                                    <p class="product-name">{{ product.name }}</p>
-                                    <p class="product-price">{{ product.price | commaChk }}원</p>
                                 </a>
+                                <p class="product-name">{{ product.name }}</p>
+                                <p class="product-price">{{ product.price | commaChk }}원</p>
                             </li>
                         </ul>
                         <infinite-loading @infinite="productListMore" spinner="bubbles">
@@ -37,11 +37,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import Header from "@/components/Common/Header";
 import Footer from "@/components/Common/Footer";
-import ProductCategory from '@/components/Shop/Acc/ProductCategory';
-import { getProductNoParam } from "@/assets/js/api.js";
+import ProductCategory from "@/components/Shop/Acc/ProductCategory";
+import {getProductNoParam} from "@/assets/js/api.js";
 import InfiniteLoading from "vue-infinite-loading";
 
 export default {

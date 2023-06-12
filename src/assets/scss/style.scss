@@ -289,7 +289,6 @@
             a {
                 display: $dp-block;
                 position: relative;
-                text-align: center;
 
                 img {
                     width: 100%;
@@ -306,14 +305,16 @@
                     background: #334E8C;
                     color: #fff;
                 }
+            }
 
-                .product-name {
-                    margin: 5px 0 -1px 0;
-                }
+            .product-name {
+                margin: 5px 0 -1px 0;
+                text-align: center;
+            }
 
-                .product-price {
-                    font-size: 15px;
-                }
+            .product-price {
+                text-align: center;
+                font-size: 15px;
             }
         }
 
@@ -328,7 +329,6 @@
             a {
                 display: $dp-block;
                 position: relative;
-                text-align: center;
 
                 .best-badge {
                     @include dp-flex-defalut;
@@ -340,14 +340,16 @@
                     background: #334E8C;
                     color: #fff;
                 }
+            }
 
-                .product-name {
-                    margin: 5px 0 -1px 0;
-                }
+            .product-name {
+                margin: 5px 0 -1px 0;
+                text-align: center;
+            }
 
-                .product-price {
-                    font-size: 15px;
-                }
+            .product-price {
+                text-align: center;
+                font-size: 15px;
             }
         }
         .main-product-list-effect {
@@ -447,7 +449,6 @@
                 a {
                     display: $dp-block;
                     position: relative;
-                    text-align: center;
 
                     img {
                         width: 100%;
@@ -464,14 +465,16 @@
                         background: #334E8C;
                         color: #fff;
                     }
+                }
 
-                    .product-name {
-                        margin: 5px 0 -1px 0;
-                    }
+                .product-name {
+                    margin: 5px 0 -1px 0;
+                    text-align: center;
+                }
 
-                    .product-price {
-                        font-size: 15px;
-                    }
+                .product-price {
+                    text-align: center;
+                    font-size: 15px;
                 }
             }
 
@@ -486,7 +489,6 @@
                 a {
                     display: $dp-block;
                     position: relative;
-                    text-align: center;
 
                     .best-badge {
                         @include dp-flex-defalut;
@@ -498,14 +500,16 @@
                         background: #334E8C;
                         color: #fff;
                     }
+                }
 
-                    .product-name {
-                        margin: 5px 0 -1px 0;
-                    }
+                .product-name {
+                    margin: 5px 0 -1px 0;
+                    text-align: center;
+                }
 
-                    .product-price {
-                        font-size: 15px;
-                    }
+                .product-price {
+                    text-align: center;
+                    font-size: 15px;
                 }
             }
             .sub-product-list-effect {
